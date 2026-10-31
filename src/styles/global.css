@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Outfit";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/outfit-latin-wght-normal.woff2") format("woff2");
+}
+
+@theme {
+  /* Colores */
+  --color-primary: #f59e0b;
+  --color-secondary: #0076e2;
+  --color-tertiary: #dceeff;
+  --color-canvas: #faf3e0;
+  --color-foreground: #000000;
+  --color-card: #ffffff;
+  --color-card-border: #000;
+  --color-card-secondary: #aed7ff;
+  --color-card-foreground: var(--color-foreground);
+  --color-muted-foreground: #4a5462;
+
+  --shadow-base: 4px 4px 0 0 #000;
+  --shadow-sm: 2px 2px 0 0 #000;
+
+  /* Tipografía */
+  --font-sans: "Outfit";
+}
+
+@layer base {
+  body {
+    @apply bg-canvas text-black antialiased;
+  }
+}
+
+@utility sticker {
+  border: 6px solid #fff;
+  outline: 1px solid #000;
+  box-shadow: var(--shadow-base);
+}
+
+/* Puntos estilo cómic */
+@utility halftone {
+  -webkit-mask-image: url("/svg/halftones/halftone_radial.svg");
+  mask-image: url("/svg/halftones/halftone_radial.svg");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 95rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @variant md {
+    padding-inline: 2rem;
+  }
+}

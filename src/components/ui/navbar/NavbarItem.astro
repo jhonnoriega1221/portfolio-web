@@ -1,0 +1,25 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  href: string;
+  label: string;
+  icon: string;
+}
+
+const { href, label, icon } = Astro.props;
+---
+
+<a
+  href={href}
+  class="flex gap-3 border-b-4 border-transparent group-data-active:border-secondary h-12 items-center px-3 text-muted-foreground hover:bg-foreground/10 rounded-lg active:text-foreground pt-1"
+>
+  <Icon name={`${icon}-broken`} class="size-6 block group-data-active:hidden" />
+  <Icon
+    name={`${icon}-bold-duotone`}
+    class="size-6 hidden group-data-active:block"
+  />
+  <span class="font-extrabold text-lg">
+    {label}
+  </span>
+</a>

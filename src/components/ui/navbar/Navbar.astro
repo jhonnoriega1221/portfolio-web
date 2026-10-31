@@ -1,0 +1,18 @@
+---
+import Card from "../../ui/Card.astro";
+import { Icon } from "astro-icon/components";
+import NavbarItem from "./NavbarItem.astro";
+---
+
+<Card
+  as="nav"
+  class="fixed w-full border-none shadow-none p-0! flex justify-center top-3"
+>
+  <div class="border-3! fixed mx-auto w-fit px-4! py-3 bg-card shadow-base flex gap-3">
+    <NavbarItem href="#home" label="Inicio" icon="solar:home-2"  />
+    <NavbarItem href="about" label="Sobre mí" icon="solar:user"  />
+    <NavbarItem href="#projects" label="Proyectos" icon="solar:code"  />
+    <NavbarItem href="#experience" label="Experiencia" icon="solar:suitcase"  />
+    <NavbarItem href="#contact" label="Contacto" icon="solar:chat-round"  />
+  </div>
+</Card>
