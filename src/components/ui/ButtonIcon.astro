@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type ButtonProps = { as?: "button" } & HTMLAttributes<"button">;
+type LinkProps = { as: "a" } & HTMLAttributes<"a">;
+
+type Props = (ButtonProps | LinkProps) & {
+  label: string;
+};
+
+const {
+  class: className = "",
+  as: Tag = "button",
+  label,
+  ...rest
+} = Astro.props;
+
+const extra = Tag === "button" ? ({ type: "button" } as const) : {};
+---
+
+<Tag
+  {...extra}
+  {...rest as Record<string, unknown>}
+  aria-label={label}
+  class:list={[
+    className,
+    "shadow-sticker bg-transparent sticker-img",
+  ]}
+>
+  <slot />
+</Tag>

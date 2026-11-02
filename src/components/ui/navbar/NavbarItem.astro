@@ -12,7 +12,7 @@ const { href, label, icon } = Astro.props;
 
 <a
   href={href}
-  class="flex gap-3 border-b-4 border-transparent group-data-active:border-secondary h-12 items-center px-3 text-muted-foreground hover:bg-foreground/10 rounded-lg active:text-foreground pt-1"
+  class="flex gap-3 border-b-4 border-transparent group-data-active:border-secondary h-12 items-center px-3 text-muted-foreground hover:bg-foreground/10 rounded-lg active:text-foreground active:bg-foreground/40 pt-1 transition-colorsz"
 >
   <Icon name={`${icon}-broken`} class="size-6 block group-data-active:hidden" />
   <Icon

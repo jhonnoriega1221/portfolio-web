@@ -9,8 +9,9 @@ interface Props {
 const { id, class: className = "" } = Astro.props;
 ---
 
-<section id={id} class:list={["py-16 md:py-24 scroll-mt-20", className]}>
-  <div class="container-page">
-    <slot />
-  </div>
+<section
+  id={id}
+  class:list={["py-16 md:py-24 scroll-mt-20 container-page", className]}
+>
+  <slot />
 </section>

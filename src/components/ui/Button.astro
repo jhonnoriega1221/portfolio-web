@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type ButtonProps = { as?: "button" } & HTMLAttributes<"button">;
+type LinkProps = { as: "a" } & HTMLAttributes<"a">;
+
+type Props = (ButtonProps | LinkProps) & {
+  class?: string;
+};
+
+const { class: className = "", as: Tag = "button", ...rest } = Astro.props;
+
+const extra = Tag === "button" ? ({ type: "button" } as const) : {};
+---
+
+<Tag
+  {...extra}
+  class:list={[
+    className,
+    "shadow-base bg-primary border-3 p-2 font-bold text-2xl flex gap-2 items-center",
+  ]}
+  {...rest as Record<string, unknown>}
+>
+  <slot />
+</Tag>
