@@ -9,6 +9,15 @@
 }
 
 @theme {
+  /* Breakpoints */
+  --breakpoint-*: initial;
+
+  --breakpoint-xs: 30rem; /* 480px  · móvil grande */
+  --breakpoint-sm: 40rem; /* 640px  · móvil horizontal */
+  --breakpoint-md: 48rem; /* 768px  · tablet vertical */
+  --breakpoint-lg: 64rem; /* 1024px · tablet horizontal / laptop pequeña */
+  --breakpoint-xl: 86rem; /* 1366px · laptop estándar */
+
   /* Colores */
   --color-primary: #f59e0b;
   --color-secondary: #0076e2;
@@ -20,15 +29,50 @@
   --color-card-secondary: #aed7ff;
   --color-card-foreground: var(--color-foreground);
   --color-muted-foreground: #4a5462;
+  --animate-squish: squish 0.1s both;
 
   --shadow-base: 4px 4px 0 0 #000;
   --shadow-sm: 2px 2px 0 0 #000;
 
+  --navbar-height: 78px;
+  --navbar-spacing: 12px;
+
   /* Tipografía */
-  --font-sans: "Outfit";
+  --font-sans: "Outfit", sans-serif;
+
+  --animate-tap: tap 1.2s ease-out forwards;
+
+  @keyframes tap {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) scale(0.6);
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--x, 0), -3rem) scale(1.1);
+    }
+  }
+
+  @keyframes squish {
+    0% {
+      transform: scale(1.05, 0.95);
+    }
+    99% {
+      transform: scale(1.05, 0.95);
+    }
+    100% {
+      transform: scale(1, 1);
+    }
+  }
 }
 
 @layer base {
+  html {
+    font-size: 16px;
+  }
   body {
     @apply bg-canvas text-black antialiased;
   }
@@ -42,12 +86,24 @@
 
 /* Puntos estilo cómic */
 @utility halftone {
-  -webkit-mask-image: url("/svg/halftones/halftone_radial.svg");
-  mask-image: url("/svg/halftones/halftone_radial.svg");
+  -webkit-mask-image: url("../assets/halftones/halftone_radial.svg");
+  mask-image: url("../assets/halftones/halftone_radial.svg");
   -webkit-mask-size: contain;
   mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  pointer-events: none;
+}
+
+@utility halftone-divider {
+  -webkit-mask-image: url("../assets/halftones/halftone_divider.svg");
+  mask-image: url("../assets/halftones/halftone_divider.svg");
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-position: left bottom;
+  mask-position: left bottom;
   pointer-events: none;
 }
 
@@ -56,10 +112,7 @@
   max-width: 103rem;
   margin: 0 auto;
   padding: 0 33px;
-
 }
-
-
 
 @utility sticker-img-lg {
   filter: drop-shadow(0 0 0 #fff) drop-shadow(4px 0 0 #fff)
@@ -92,5 +145,5 @@
 @utility drop-shadow-title-text {
   filter: drop-shadow(2px 0 0 #000) drop-shadow(-2px 0 0 #000)
     drop-shadow(0 2px 0 #000) drop-shadow(0 -2px 0 #000)
-    drop-shadow(4px 4px 0 #000)
+    drop-shadow(4px 4px 0 #000);
 }

@@ -1,17 +1,20 @@
 ---
-import { check } from "astro:schema";
-
 interface Props {
   id?: string;
   class?: string;
+  wrapperClass?: string;
 }
 
-const { id, class: className = "" } = Astro.props;
+const { id, class: className = "", wrapperClass = "" } = Astro.props;
 ---
 
 <section
   id={id}
-  class:list={["py-16 md:py-24 scroll-mt-20 container-page", className]}
+  class:list={["relative isolate overflow-clip scroll-mt-20", wrapperClass]}
 >
-  <slot />
+  <slot name="background" />
+
+  <div class:list={["container-page", className]}>
+    <slot />
+  </div>
 </section>
