@@ -1,0 +1,13 @@
+---
+import { Icon } from "astro-icon/components";
+import type { Skill } from "../data/skills";
+
+interface Props {
+  skill: Skill;
+}
+const { skill } = Astro.props;
+---
+
+<li class=" flex flex-col items-center">
+  <Icon name={skill.icon} class="size-26" aria-hidden="true" />
+</li>

@@ -1,9 +1,25 @@
 ---
+interface Props {
+  class?: string;
+  textClass?: string;
+}
 
+const { class: className = "", textClass, ...rest } = Astro.props;
 ---
 
-<div class="px-3 bg-secondary w-fit xl:py-3 lg:py-2 border-4 shadow-base">
-  <p class="xl:text-4xl lg:text-2xl text-base font-bold text-white drop-shadow-title-text">
+<div
+  class:list={[
+    "px-3 bg-secondary w-fit xl:py-3 lg:py-2 border-4 shadow-base",
+    className,
+  ]}
+  {...rest}
+>
+  <p
+    class:list={[
+      "xl:text-4xl lg:text-2xl text-base font-bold text-white drop-shadow-title-text",
+      textClass,
+    ]}
+  >
     <slot />
   </p>
 </div>

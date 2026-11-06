@@ -19,6 +19,7 @@
   },
   "allowScripts": {},
   "devDependencies": {
+    "@iconify-json/logos": "^1.2.19",
     "@iconify-json/lucide": "^1.2.149",
     "@iconify-json/solar": "^1.2.13"
   }
