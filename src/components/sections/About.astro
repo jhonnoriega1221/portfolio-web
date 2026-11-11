@@ -6,6 +6,7 @@ import TitleCard from "../ui/TitleCard.astro";
 import avatar from "../../assets/avatar/about.png";
 import { categories, skills } from "../../data/skills";
 import SkillSticker from "../SkillSticker.astro";
+import SpeechBubble from "../ui/SpeechBubble.astro";
 
 const grouped = categories.map((category) => ({
   ...category,
@@ -13,7 +14,7 @@ const grouped = categories.map((category) => ({
 }));
 ---
 
-<Section id="sobre-mi" wrapperClass="bg-tertiary pb-50">
+<Section id="about" wrapperClass="bg-tertiary pb-50">
   <TitleCard>Sobre mí</TitleCard>
 
   <div
@@ -31,38 +32,15 @@ const grouped = categories.map((category) => ({
     data-about
     class="relative mt-5 flex items-end gap-8 overflow-hidden bg-card-secondary md:gap-12 p-0! h-64 mb-12"
   >
-    <!-- Globo -->
-    <div
-      data-bubble
-      data-visible="true"
-      class="relative flex-1 origin-right rounded-full border-4 border-black bg-white top-15 pt-12 px-12
-             shadow-sm transition-scale duration-300
-             data-[visible=false]:scale-50
-             motion-reduce:transition-none
-            h-80 lg:max-w-200 xl:max-w-250"
+    <SpeechBubble
+      tail="responsive"
+      class="text-2xl font-bold px-16 h-full lg:w-180 xl:w-240"
     >
-      <p data-typewriter class="text-2xl font-bold">
-        Soy un ingeniero front-end al que le apasiona crear interfaces
-        accesibles, adaptables y de alto rendimiento. Disfruto transformando
-        ideas en productos bien ejecutados y colaborando con personas
-        excepcionales para hacer que las ideas se hagan realidad.
-      </p>
-
-      <!-- Colita apuntando al avatar -->
-      <svg
-        aria-hidden="true"
-        viewBox="0 0 40 40"
-        class="pointer-events-none absolute top-[30%] left-[calc(100%-10px)] h-auto w-6 overflow-visible md:w-10 xl:w-12"
-      >
-        <path
-          d="M0 4 C12 6 28 16 40 30 C26 26 12 26 0 24"
-          fill="white"
-          stroke="black"
-          stroke-width="2"
-          stroke-linejoin="round"
-          vector-effect="non-scaling-stroke"></path>
-      </svg>
-    </div>
+      Soy un ingeniero front-end al que le apasiona crear interfaces accesibles,
+      adaptables y de alto rendimiento. Disfruto transformando ideas en
+      productos bien ejecutados y colaborando con personas excepcionales para
+      hacer que las ideas se hagan realidad.
+    </SpeechBubble>
 
     <Image
       src={avatar}
@@ -71,7 +49,7 @@ const grouped = categories.map((category) => ({
       sizes="(min-width: 1024px) 16rem, 8rem"
       loading="lazy"
       decoding="async"
-      class="relative -bottom-5 shrink-0 w-75 transform-[scaleX(-1)]"
+      class="relative -bottom-5 shrink-0 w-75 transform-[scaleX(-1)] mr-auto"
     />
   </Card>
 
@@ -104,51 +82,3 @@ const grouped = categories.map((category) => ({
     </div>
   </div>
 </Section>
-
-<script>
-  const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
-
-  function init(root: HTMLElement) {
-    const bubble = root.querySelector<HTMLElement>("[data-bubble]")!;
-    const p = root.querySelector<HTMLElement>("[data-typewriter]")!;
-
-    // Sin animaciones: se deja todo visible tal cual está en el HTML
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const chars = [...(p.textContent ?? "").replace(/\s+/g, " ").trim()];
-
-    // El texto completo sigue en el DOM: la parte escrita se ve,
-    // y el resto es transparente pero ocupa su lugar (el globo no cambia de tamaño)
-    const typed = document.createElement("span");
-    const rest = document.createElement("span");
-    rest.className = "text-transparent";
-    rest.textContent = chars.join("");
-    p.replaceChildren(typed, rest);
-
-    bubble.dataset.visible = "false";
-
-    async function play() {
-      bubble.dataset.visible = "true";
-      await sleep(450); // deja terminar el "pop" del globo
-
-      for (let i = 1; i <= chars.length; i++) {
-        typed.textContent = chars.slice(0, i).join("");
-        rest.textContent = chars.slice(i).join("");
-        await sleep(",.!?".includes(chars[i - 1]) ? 120 : 30);
-      }
-    }
-
-    // Solo arranca cuando la card se acerca al viewport, y una sola vez
-    const observer = new IntersectionObserver(
-      ([entry], obs) => {
-        if (!entry.isIntersecting) return;
-        obs.disconnect();
-        play();
-      },
-      { rootMargin: "0px 0px -20% 0px" },
-    );
-    observer.observe(root);
-  }
-
-  document.querySelectorAll<HTMLElement>("[data-about]").forEach(init);
-</script>

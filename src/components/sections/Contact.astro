@@ -1,0 +1,133 @@
+---
+import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import Card from "../ui/Card.astro";
+import Section from "../ui/Section.astro";
+import TitleCard from "../ui/TitleCard.astro";
+import SpeechBubble from "../ui/SpeechBubble.astro";
+import pointWhatsapp from "../../assets/avatar/contact_1.png";
+import pointEmail from "../../assets/avatar/contact_2.png";
+import Button from "../ui/Button.astro";
+
+const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
+---
+
+<Section id="contact" wrapperClass="bg-tertiary py-16 xl:py-24">
+  <TitleCard>Contacto</TitleCard>
+
+  <div
+    data-contact
+    data-pointing="whatsapp"
+    class="group/contact mt-6 flex flex-col gap-8"
+  >
+    <Card class="relative bg-primary lg:h-90 xl:h-130">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute inset-0 overflow-clip"
+      >
+        <div class="halftone absolute right-15 xl:-right-20 -bottom-40 lg:-bottom-60 size-160 xl:size-250 bg-card/40">
+        </div>
+      </div>
+
+      <div
+        class="relative grid items-end gap-6 lg:grid-cols-[1fr_1fr] xl:grid-cols-[1fr_1fr] lg:gap-10 h-full"
+      >
+        <div class="flex flex-col gap-5 self-start max-w-190">
+          <h3 class="lg:text-2xl xl:text-4xl font-extrabold mb-2">
+            ¿Tienes una idea o un proyecto en mente?
+          </h3>
+
+          <SpeechBubble tail="responsive" class="text-base lg:text-xl xl:text-2xl lg:p-8! xl:p-10!">
+            ¡Me encantaría saber de ti! Puedes escribirme por WhatsApp o
+            enviarme un correo. Estoy abierto a nuevas oportunidades,
+            colaboraciones y buenos retos.
+          </SpeechBubble>
+        </div>
+
+        <div
+          class="grid w-48 justify-self-start -mb-5 sm:w-56 lg:w-100 xl:w-150 lg:-mb-15 xl:-mb-22"
+        >
+          <Image
+            src={pointWhatsapp}
+            alt="Jhon señalando hacia abajo, al botón de WhatsApp"
+            widths={[192, 384, 768]}
+            sizes="(min-width: 1280px) 24rem, (min-width: 1024px) 20rem, 12rem"
+            class:list={[
+              pose,
+              "animate-squish",
+              "group-data-[pointing=email]/contact:animate-none group-data-[pointing=email]/contact:opacity-0",
+            ]}
+          />
+          <Image
+            src={pointEmail}
+            alt=""
+            widths={[192, 384, 768]}
+            sizes="(min-width: 1280px) 24rem, (min-width: 1024px) 20rem, 12rem"
+            class:list={[
+              pose,
+              "opacity-0",
+              "group-data-[pointing=email]/contact:opacity-100 group-data-[pointing=email]/contact:animate-squish",
+            ]}
+          />
+        </div>
+      </div>
+    </Card>
+
+    <div
+      class="flex flex-col-reverse h-30 gap-5 lg:flex-row lg:justify-center lg:gap-10"
+    >
+      <Button
+        as="a"
+        data-link="email"
+        href="mailto:jhonlex17@gmail.com"
+        class="flex items-center px-8 justify-between gap-8 bg-canvas! min-w-100 font-normal"
+      >
+        <span class="flex items-center gap-4">
+          <Icon name="lucide:mail" class="size-14" aria-hidden="true" />
+          <span class="text-2xl">Envíame un Email</span>
+        </span>
+        <Icon name="lucide:move-up-right" class="size-9" aria-hidden="true" />
+    </Button>
+
+      <Button
+        as="a"
+        data-link="whatsapp"
+        href="https://wa.me/573003888247"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center px-8 justify-between gap-8 bg-whatsapp! text-white border-black min-w-100 font-normal"
+      >
+        <span class="flex items-center gap-4">
+          <Icon
+            name="simple-icons:whatsapp"
+            class="size-14"
+            aria-hidden="true"
+          />
+          <span class="text-2xl"
+            >Escríbeme por <strong class="block">WhatsApp</strong></span
+          >
+        </span>
+        <Icon name="lucide:move-up-right" class="size-9" aria-hidden="true" />
+      </Button>
+    </div>
+  </div>
+</Section>
+
+<script>
+  const root = document.querySelector<HTMLElement>("[data-contact]");
+  const email = root?.querySelector<HTMLElement>('[data-link="email"]');
+
+  if (root && email) {
+    const point = (to: "email" | "whatsapp") => (root.dataset.pointing = to);
+
+    email.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "touch") point("email");
+    });
+    email.addEventListener("pointerleave", () => point("whatsapp"));
+
+    email.addEventListener("focus", () => {
+      if (email.matches(":focus-visible")) point("email");
+    });
+    email.addEventListener("blur", () => point("whatsapp"));
+  }
+</script>

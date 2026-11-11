@@ -29,6 +29,7 @@
   --color-card-secondary: #aed7ff;
   --color-card-foreground: var(--color-foreground);
   --color-muted-foreground: #4a5462;
+  --color-whatsapp: #0A9B4A;
   --animate-squish: squish 0.1s both;
 
   --shadow-base: 4px 4px 0 0 #000;

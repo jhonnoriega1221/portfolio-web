@@ -1,0 +1,58 @@
+---
+import { experience } from "../../data/experience";
+import ExperienceCard from "../ExperienceCard.astro";
+import Section from "../ui/Section.astro";
+import TitleCard from "../ui/TitleCard.astro";
+---
+
+<Section id="projects" wrapperClass="bg-canvas pb-50 pt-2">
+  <TitleCard class="mb-5">Experiencia</TitleCard>
+
+   <div
+    slot="background"
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+  >
+    <div
+      class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-tertiary"
+    >
+    </div>
+  </div>
+
+  <ol    class="relative mt-10 [--dot-y:1.5rem] [--gap-up:-2rem] lg:[--dot-y:6rem] lg:[--gap-up:3rem]"
+ >
+  {
+    experience.map((experience, i) => (
+      <li
+        class="group grid grid-cols-[auto_1fr] gap-x-4 not-first:-mt-[var(--gap-up)]
+               lg:grid-cols-[1fr_auto_1fr] lg:gap-x-10"
+      >
+        <div
+          aria-hidden="true"  
+          class="relative col-start-1 row-start-1 lg:col-start-2"
+        >
+          <span
+            class="absolute top-[var(--dot-y)] bottom-[calc(var(--gap-up)_-_var(--dot-y))] left-1/2
+                   w-1 -translate-x-1/2 bg-black group-last:hidden"
+          ></span>
+          <span
+            class="relative z-10 mt-[calc(var(--dot-y)_-_0.875rem)] block size-7 rounded-full
+                   border-4 border-black bg-primary"
+          ></span>
+        </div>
+      <ExperienceCard
+        id={experience.id}
+        company={experience.company}
+        role={experience.role}
+        period={experience.period}
+        description={experience.description}
+        class:list={[
+            "col-start-2 row-start-1",
+            i % 2 === 0 ? "lg:col-start-1" : "lg:col-start-3",
+          ]}
+      />
+      </li>
+    ))
+  }
+    </ol>
+</Section>

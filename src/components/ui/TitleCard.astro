@@ -14,12 +14,12 @@ const { class: className = "", textClass, ...rest } = Astro.props;
   ]}
   {...rest}
 >
-  <p
+  <h2
     class:list={[
       "xl:text-4xl lg:text-2xl text-base font-bold text-white drop-shadow-title-text",
       textClass,
     ]}
   >
     <slot />
-  </p>
+    </h2>
 </div>

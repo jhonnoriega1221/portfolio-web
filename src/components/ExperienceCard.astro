@@ -1,0 +1,49 @@
+---
+import { Image } from "astro:assets";
+import Card from "./ui/Card.astro";
+import TitleCard from "./ui/TitleCard.astro";
+import { Icon } from "astro-icon/components";
+
+export interface Props {
+  id: string;
+  company: string;
+  image?: ImageMetadata | string;
+  period: string;
+  description: string;
+  role: string;
+  class?: string;
+}
+
+const defaultImage =
+  "https://p7.hiclipart.com/preview/812/515/745/white-square-symmetry-area-pattern-brown-frame-design-thumbnail.jpg";
+
+const { id, company, image, period, description, role, class: className } = Astro.props;
+---
+
+<Card class:list={["bg-card", className]}>
+  <div class="flex gap-2 mb-4">
+    <Image
+      alt=""
+      height={108}
+      width={108}
+      src={(image as ImageMetadata) ?? defaultImage}
+    />
+
+    <div class="flex-col">
+      <TitleCard
+        textClass="text-foreground! drop-shadow-none! text-xl"
+        class="bg-primary! py-1! px-2! mb-2"
+      >
+        {company}
+      </TitleCard>
+      <p class="text-xl font-bold">{role}</p>
+      <p class="flex gap-1 items-center">
+        <Icon name="lucide:calendar" />
+        {period}
+      </p>
+    </div>
+  </div>
+  <p class="text-lg">
+    {description}
+  </p>
+</Card>

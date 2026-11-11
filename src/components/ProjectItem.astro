@@ -1,0 +1,68 @@
+---
+import { Image } from "astro:assets";
+import { skills, type SkillId } from "../data/skills";
+import Card from "./ui/Card.astro";
+import Chip from "./ui/Chip.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  id: string;
+  imageUrl: string | ImageMetadata;
+  name: string;
+  stack: SkillId[];
+  selected?: boolean;
+  class?: string;
+}
+const {
+  id,
+  name,
+  imageUrl,
+  selected,
+  stack = [],
+  class: className,
+} = Astro.props;
+
+const MAX_VISIBLE = 2;
+
+const visibleSkills = stack
+  .slice(0, MAX_VISIBLE)
+  .map((id) => skills.find((s) => s.id === id))
+  .filter((s) => s !== undefined);
+
+const hidden = stack.length - visibleSkills.length;
+---
+
+<Card
+  as="button"
+  type="button"
+  role="tab"
+  id={`tab-${id}`}
+  aria-controls={`panel-${id}`}
+  aria-selected={String(selected)}
+  tabindex={selected ? 0 : -1}
+  class:list={[
+    "h-30 bg-tertiary flex gap-3 p-2! w-full items-center justify-between transition-colors",
+    "aria-selected:bg-primary",
+    className,
+  ]}
+  
+>
+  <div class="flex gap-3 items-center">
+    <Image
+      fit="cover"
+      height={90}
+      width={134}
+      src={imageUrl as ImageMetadata}
+      alt=""
+    />  
+    <div class="flex flex-col gap-2">
+      <p class="font-bold text-2xl text-left">{name}</p>
+      <ul class="flex gap-1">
+        {visibleSkills.map((skill) => <Chip text={skill.name} />)}
+        {hidden > 0 && <Chip text={`+${hidden}`} />}
+      </ul>
+    </div>
+  </div>
+
+  <Icon name="lucide:chevron-right" size={30} />
+</Card>

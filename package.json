@@ -21,6 +21,7 @@
   "devDependencies": {
     "@iconify-json/logos": "^1.2.19",
     "@iconify-json/lucide": "^1.2.149",
+    "@iconify-json/simple-icons": "^1.2.102",
     "@iconify-json/solar": "^1.2.13"
   }
 }

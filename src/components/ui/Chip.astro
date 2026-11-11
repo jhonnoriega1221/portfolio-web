@@ -1,0 +1,13 @@
+---
+import type { Skill, SkillId } from '../../data/skills';
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<span class="py-0 px-2 border-3 rounded-full bg-tertiary font-bold h-8 m-0">
+  {text}
+</span>

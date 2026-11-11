@@ -1,8 +1,120 @@
 ---
+import { Image } from "astro:assets";
+import { projects } from "../../data/projects";
+import ProjectItem from "../ProjectItem.astro";
+import Card from "../ui/Card.astro";
 import Section from "../ui/Section.astro";
 import TitleCard from "../ui/TitleCard.astro";
-
+import { skills } from "../../data/skills";
+import Chip from "../ui/Chip.astro";
+import Button from "../ui/Button.astro";
+import { Icon } from "astro-icon/components";
 ---
-<Section wrapperClass="bg-secondary pb-50 pt-2">
-    <TitleCard>Proyectos</TitleCard>
+
+<Section id="projects" wrapperClass="bg-secondary pb-50 pt-2">
+  <TitleCard>Mis Proyectos</TitleCard>
+
+  <div
+    slot="background"
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+  >
+    <div
+      class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"
+    >
+    </div>
+  </div>
+
+  <div data-projects class="pb-4 pt-8 flex gap-3 justify-between">
+    <!-- Lista -->
+    <div
+      role="tablist"
+      aria-label="proyectos"
+      aria-orientation="vertical"
+      class="flex flex-col gap-5 w-[700px] max-w-[555px] pt-4"
+    >
+      {
+        projects.map((project, i) => (
+          <ProjectItem
+            id={project.id}
+            name={project.name}
+            imageUrl={project.imageUrls[0]}
+            stack={project.stack}
+            selected={i === 0}
+          />
+        ))
+      }
+    </div>
+
+    <!-- Detalles -->
+    <Card
+      class="w-full bg-canvas max-h-[600px] max-w-[974px] h-[calc(100dvh-var(--navbar-height)-var(--navbar-spacing)*2)]"
+    >
+      {
+        projects.map((project, i) => (
+          <div
+            role="tabpanel"
+            id={`panel-${project.id}`}
+            aria-labelledby={`tab-${project.id}`}
+            hidden={i != 0}
+            class="flex flex-col h-full justify-between"
+          >
+            <div class="flex flex-col">
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                {project.imageUrls.slice(0, 2).map((img) => (
+                  <Image src={img as ImageMetadata} alt="" loading="lazy" />
+                ))}
+              </div>
+
+              <h3 class="drop-shadow-title-text font-bold text-3xl text-white mb-1">
+                {project.name}
+              </h3>
+              <p class="text-lg font-medium mb-6">{project.description}</p>
+
+              <div class="flex gap-1">
+                {project.stack.map((id) => (
+                  <Chip text={skills.find((s) => s.id === id)?.name ?? id} />
+                ))}
+              </div>
+            </div>
+            <div class="flex justify-end gap-4">
+              {project.repo && (
+                <Button class="bg-canvas!">
+                  Ver código fuente <Icon name="simple-icons:github" />
+                </Button>
+              )}
+              {project.demo && (
+                <Button>
+                  Ver demo <Icon name="lucide:move-up-right" />
+                </Button>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </Card>
+  </div>
 </Section>
+<script>
+  const root = document.querySelector<HTMLElement>("[data-projects]");
+  if (root) {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>(`[role="tab"]`)];
+    const panels = [...root.querySelectorAll<HTMLElement>(`[role="tabpanel"]`)];
+
+    let selected = 0;
+
+    function select(i: number, focus = false) {
+      selected = i;
+      tabs.forEach((tab, idx) => {
+        tab.setAttribute("aria-selected", String(idx === selected));
+        tab.tabIndex = idx === selected ? 0 : -1;
+      });
+      panels.forEach((panel, idx) => (panel.hidden = idx !== selected));
+      if (focus) tabs[selected].focus();
+    }
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener("click", () => select(i));
+    });
+  }
+</script>

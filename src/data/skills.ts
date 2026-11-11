@@ -7,6 +7,7 @@ export const categories = [
   { id: "testing", title: "Testing" },
 ] as const;
 
+export type SkillId = (typeof skills)[number]["id"];
 export type CategoryId = (typeof categories)[number]["id"];
 
 export interface Skill {
