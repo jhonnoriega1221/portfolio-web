@@ -35,8 +35,10 @@
   --shadow-base: 4px 4px 0 0 #000;
   --shadow-sm: 2px 2px 0 0 #000;
 
-  --navbar-height: 78px;
+  --navbar-height-desktop: 78px;
+  --navbar-height-mobile: 60px;
   --navbar-spacing: 12px;
+  --navbar-spacing-mobile: 12px;
 
   /* Tipografía */
   --font-sans: "Outfit", sans-serif;

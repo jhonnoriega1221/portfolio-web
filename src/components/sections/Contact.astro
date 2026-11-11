@@ -20,12 +20,24 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
     data-pointing="whatsapp"
     class="group/contact mt-6 flex flex-col gap-8"
   >
+    <div
+      slot="background"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 -z-10"
+    >
+      <div
+        class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"
+      >
+      </div>
+    </div>
     <Card class="relative bg-primary lg:h-90 xl:h-130">
       <div
         aria-hidden="true"
         class="pointer-events-none absolute inset-0 overflow-clip"
       >
-        <div class="halftone absolute right-15 xl:-right-20 -bottom-40 lg:-bottom-60 size-160 xl:size-250 bg-card/40">
+        <div
+          class="halftone absolute right-15 xl:-right-20 -bottom-40 lg:-bottom-60 size-160 xl:size-250 bg-card/40"
+        >
         </div>
       </div>
 
@@ -37,7 +49,10 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
             ¿Tienes una idea o un proyecto en mente?
           </h3>
 
-          <SpeechBubble tail="responsive" class="text-base lg:text-xl xl:text-2xl lg:p-8! xl:p-10!">
+          <SpeechBubble
+            tail="responsive"
+            class="text-base lg:text-xl xl:text-2xl lg:p-8! xl:p-10!"
+          >
             ¡Me encantaría saber de ti! Puedes escribirme por WhatsApp o
             enviarme un correo. Estoy abierto a nuevas oportunidades,
             colaboraciones y buenos retos.
@@ -87,7 +102,7 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
           <span class="text-2xl">Envíame un Email</span>
         </span>
         <Icon name="lucide:move-up-right" class="size-9" aria-hidden="true" />
-    </Button>
+      </Button>
 
       <Button
         as="a"
