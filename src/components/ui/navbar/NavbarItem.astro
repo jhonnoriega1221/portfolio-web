@@ -12,14 +12,14 @@ const { href, label, icon } = Astro.props;
 
 <a
   href={href}
-  class="flex flex-col lg:flex-row gap-0 lg:gap-3 lg:border-b-4 max-w-16 lg:max-w-full w-16 lg:w-full lg:border-transparent lg:group-data-active:border-secondary h-11 lg:h-12 items-center px-0 lg:px-3 text-muted-foreground hover:bg-foreground/10 rounded-lg active:text-foreground active:bg-foreground/40 pt-0 lg:pt-1 transition-colors text-nowrap"
+  class="flex flex-col md:flex-row gap-0 md:gap-3 md:border-b-4 max-w-16 md:max-w-full w-16 md:w-full md:border-transparent md:group-data-active:border-secondary h-11 md:h-12 items-center px-0 md:px-3 text-muted-foreground hover:bg-foreground/10 rounded-lg active:text-foreground active:bg-foreground/40 pt-0 md:pt-1 transition-colors text-nowrap"
 >
   <Icon name={`${icon}-broken`} class="size-6 block group-data-active:hidden" />
   <Icon
     name={`${icon}-bold-duotone`}
     class="size-6 hidden group-data-active:block"
   />
-  <span class="text-xs lg:text-base font-extrabold">
+  <span class="text-xs md:text-base font-extrabold">
     {label}
   </span>
 </a>

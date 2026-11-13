@@ -1,120 +1,130 @@
 ---
 import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import { projects } from "../../data/projects";
+import { skills } from "../../data/skills";
 import ProjectItem from "../ProjectItem.astro";
+import Button from "../ui/Button.astro";
 import Card from "../ui/Card.astro";
+import Chip from "../ui/Chip.astro";
 import Section from "../ui/Section.astro";
 import TitleCard from "../ui/TitleCard.astro";
-import { skills } from "../../data/skills";
-import Chip from "../ui/Chip.astro";
-import Button from "../ui/Button.astro";
-import { Icon } from "astro-icon/components";
 ---
 
 <Section id="projects" wrapperClass="bg-secondary pb-50 pt-2">
   <TitleCard>Mis Proyectos</TitleCard>
 
-  <div
-    slot="background"
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 -z-10"
-  >
-    <div
-      class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"
-    >
-    </div>
+  <div slot="background" aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+    <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"></div>
   </div>
 
-  <div data-projects class="pb-4 pt-8 flex gap-3 justify-between">
-    <!-- Lista -->
-    <div
-      role="tablist"
-      aria-label="proyectos"
-      aria-orientation="vertical"
-      class="flex flex-col gap-5 w-[700px] max-w-[555px] pt-4"
-    >
-      {
-        projects.map((project, i) => (
-          <ProjectItem
-            id={project.id}
-            name={project.name}
-            imageUrl={project.imageUrls[0]}
-            stack={project.stack}
-            selected={i === 0}
-          />
-        ))
-      }
-    </div>
+  <div
+    data-projects
+    style={`--n:${projects.length}`}
+    class="flex flex-col gap-5 pt-8 pb-4
+           lg:grid lg:grid-cols-[minmax(0,27rem)_1fr] lg:grid-rows-[repeat(var(--n),auto)_1fr] lg:gap-x-3"
+  >
+    {projects.map((project, i) => (
+      <Card as="div" class="p-0! bg-tertiary has-aria-expanded:bg-canvas lg:contents">
+        <ProjectItem
+          id={project.id}
+          name={project.name}
+          imageUrl={project.imageUrls[0] as ImageMetadata}
+          stack={project.stack}
+          selected={i === 0}
+          class="lg:col-start-1"
+        />
 
-    <!-- Detalles -->
-    <Card
-      class="w-full bg-canvas max-h-[600px] max-w-[974px] h-[calc(100dvh-var(--navbar-height-desktop)-var(--navbar-spacing)*2)]"
-    >
-      {
-        projects.map((project, i) => (
-          <div
-            role="tabpanel"
-            id={`panel-${project.id}`}
-            aria-labelledby={`tab-${project.id}`}
-            hidden={i != 0}
-            class="flex flex-col h-full justify-between"
-          >
+        <div
+          role="region"
+          id={`panel-${project.id}`}
+          aria-labelledby={`trigger-${project.id}`}
+          hidden={i !== 0}
+          class="px-4 pb-4 lg:col-start-2 lg:row-start-1 lg:row-span-full
+                 lg:h-[calc(100dvh-var(--navbar-height-desktop)-var(--navbar-spacing)*2)]
+                 lg:max-h-150 lg:max-w-244 lg:border-6 lg:border-card-border
+                 lg:bg-canvas lg:p-7 lg:shadow-base xl:p-10 lg:ml-auto w-full"
+        >
+          <div class="flex h-full flex-col justify-between gap-6">
             <div class="flex flex-col">
-              <div class="grid grid-cols-2 gap-4 mb-4">
+              <div class="mb-4 grid grid-cols-2 gap-4">
                 {project.imageUrls.slice(0, 2).map((img) => (
-                  <Image src={img as ImageMetadata} alt="" loading="lazy" />
+                  <Image
+                    src={img as ImageMetadata}
+                    alt=""
+                    widths={[300, 600]}
+                    sizes="(min-width: 1024px) 24rem, 45vw"
+                    loading="lazy"
+                    class="w-full"
+                  />
                 ))}
               </div>
 
-              <h3 class="drop-shadow-title-text font-bold text-3xl text-white mb-1">
+              <h3 class="mb-1 hidden text-3xl font-bold text-white drop-shadow-title-text lg:block">
                 {project.name}
               </h3>
-              <p class="text-lg font-medium mb-6">{project.description}</p>
+              <p class="mb-6 font-medium lg:text-lg">{project.description}</p>
 
-              <div class="flex gap-1">
-                {project.stack.map((id) => (
-                  <Chip text={skills.find((s) => s.id === id)?.name ?? id} />
+              <div class="hidden flex-wrap gap-1 lg:flex">
+                {project.stack.map((skillId) => (
+                  <Chip text={skills.find((s) => s.id === skillId)?.name ?? skillId} />
                 ))}
               </div>
             </div>
-            <div class="flex justify-end gap-4">
+
+            <div class="flex flex-col-reverse gap-3 md:flex-row md:justify-end lg:gap-4">
               {project.repo && (
-                <Button class="bg-canvas!">
-                  Ver código fuente <Icon name="simple-icons:github" />
+                <Button href={project.repo} target="_blank" rel="noopener noreferrer"
+                        class="w-full justify-center bg-canvas! md:w-auto">
+                  Ver código fuente <Icon name="simple-icons:github" class="size-6" />
                 </Button>
               )}
               {project.demo && (
-                <Button>
-                  Ver demo <Icon name="lucide:move-up-right" />
+                <Button href={project.demo} target="_blank" rel="noopener noreferrer"
+                        class="w-full justify-center md:w-auto">
+                  Ver demo <Icon name="lucide:move-up-right" class="size-6" />
                 </Button>
               )}
             </div>
           </div>
-        ))
-      }
-    </Card>
+        </div>
+      </Card>
+    ))}
   </div>
 </Section>
+
 <script>
   const root = document.querySelector<HTMLElement>("[data-projects]");
   if (root) {
-    const tabs = [...root.querySelectorAll<HTMLButtonElement>(`[role="tab"]`)];
-    const panels = [...root.querySelectorAll<HTMLElement>(`[role="tabpanel"]`)];
+    const triggers = [...root.querySelectorAll<HTMLButtonElement>("[data-trigger]")];
+    const panels = triggers.map((t) => document.getElementById(t.getAttribute("aria-controls")!)!);
 
-    let selected = 0;
+    let current = 0;
 
-    function select(i: number, focus = false) {
-      selected = i;
-      tabs.forEach((tab, idx) => {
-        tab.setAttribute("aria-selected", String(idx === selected));
-        tab.tabIndex = idx === selected ? 0 : -1;
-      });
-      panels.forEach((panel, idx) => (panel.hidden = idx !== selected));
-      if (focus) tabs[selected].focus();
+    function open(i: number) {
+      current = i;
+      triggers.forEach((t, idx) => t.setAttribute("aria-expanded", String(idx === i)));
+      panels.forEach((p, idx) => (p.hidden = idx !== i));
     }
 
-    tabs.forEach((tab, i) => {
-      tab.addEventListener("click", () => select(i));
+    triggers.forEach((trigger, i) => {
+      trigger.addEventListener("click", () => {
+        if (i === current) return;
+        open(i);
+
+
+        if (!matchMedia("(min-width: 64rem)").matches) {
+          const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+          trigger.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+        }
+      });
+
+      trigger.addEventListener("keydown", (e) => {
+        const dir = e.key === "ArrowDown" ? 1 : e.key === "ArrowUp" ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        triggers[(i + dir + triggers.length) % triggers.length].focus();
+      });
     });
   }
 </script>

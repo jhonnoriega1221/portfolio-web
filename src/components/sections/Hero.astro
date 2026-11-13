@@ -10,7 +10,7 @@ import AvatarGreeting from "../AvatarGreeting.astro";
 
 <Section
   id="home"
-  wrapperClass="pt-20 lg:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-50 bg-canvas"
+  wrapperClass="pt-20 md:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-50 bg-canvas"
 >
   <div
     slot="background"
@@ -33,7 +33,7 @@ import AvatarGreeting from "../AvatarGreeting.astro";
   </div>
 
   <div
-    class="grid gap-5 grid-cols-[auto_1fr] lg:grid-cols-[minmax(0,36rem)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-9 xl:grid-cols-[minmax(0,42rem)_1fr] xl:gap-x-16"
+    class="grid gap-5 grid-cols-[auto_1fr] lg:grid-cols-[minmax(0,36rem)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-15 xl:grid-cols-[minmax(0,42rem)_1fr] xl:gap-x-16"
   >
     <header class="col-span-2 row-start-1 lg:col-span-1 lg:px-7 xl:px-10">
       <h1
@@ -57,7 +57,7 @@ import AvatarGreeting from "../AvatarGreeting.astro";
       </li>
     </ul>
 
-    <Card class="relative p-4! lg:p-7! col-span-2 row-start-3 lg:col-span-1 lg:self-end overflow-hidden bg-card mt-12 lg:mt-4">
+    <Card class="relative p-4! lg:p-7! col-span-2 row-start-3 lg:col-span-1 lg:self-end overflow-hidden bg-card mt-12 mb-0 xl:mb-12 lg:mt-4">
       <div
         aria-hidden="true"
         class="halftone absolute -top-60 -left-60 size-110 bg-foreground/5"
@@ -70,11 +70,11 @@ import AvatarGreeting from "../AvatarGreeting.astro";
       </div>
 
       <div class="relative">
-        <p class="mb-4 lg:mb-8 text-[16px] leading-5 lg:leading-7 lg:text-[20px] xl:text-[24px] font-semibold">
+        <p class="mb-4 lg:mb-8 text-[16px] leading-5 md:leading-7 md:text-[20px] xl:text-[24px] font-semibold">
           Soy un ingeniero de sistemas enfocado en el desarrollo front-end con
           +3 años de experiencia construyendo experiencias digitales
         </p>
-        <div class="flex flex-col lg:flex-row gap-4">
+        <div class="flex flex-col md:flex-row gap-4">
           <Button href="/proyectos">
             Ver proyectos
             <Icon name="lucide:arrow-right" class="size-7" />
@@ -86,6 +86,6 @@ import AvatarGreeting from "../AvatarGreeting.astro";
         </div>
       </div>
     </Card>
-    <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[560px] lg:row-span-3" />
+    <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[490px] xl:max-h-[700px] lg:row-span-3" />
   </div>
 </Section>

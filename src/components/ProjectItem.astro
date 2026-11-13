@@ -1,68 +1,65 @@
 ---
 import { Image } from "astro:assets";
-import { skills, type SkillId } from "../data/skills";
-import Card from "./ui/Card.astro";
-import Chip from "./ui/Chip.astro";
+import type { ImageMetadata } from "astro";
 import { Icon } from "astro-icon/components";
+import { skills, type SkillId } from "../data/skills";
+import Chip from "./ui/Chip.astro";
 
 interface Props {
   id: string;
-  imageUrl: string | ImageMetadata;
   name: string;
+  imageUrl: ImageMetadata;
   stack: SkillId[];
   selected?: boolean;
   class?: string;
 }
-const {
-  id,
-  name,
-  imageUrl,
-  selected,
-  stack = [],
-  class: className,
-} = Astro.props;
+
+const { id, name, imageUrl, stack = [], selected = false, class: className = "" } = Astro.props;
 
 const MAX_VISIBLE = 2;
-
 const visibleSkills = stack
   .slice(0, MAX_VISIBLE)
-  .map((id) => skills.find((s) => s.id === id))
+  .map((skillId) => skills.find((s) => s.id === skillId))
   .filter((s) => s !== undefined);
-
 const hidden = stack.length - visibleSkills.length;
 ---
 
-<Card
-  as="button"
+<button
   type="button"
-  role="tab"
-  id={`tab-${id}`}
+  data-trigger
+  id={`trigger-${id}`}
   aria-controls={`panel-${id}`}
-  aria-selected={String(selected)}
-  tabindex={selected ? 0 : -1}
+  aria-expanded={String(selected)}
   class:list={[
-    "h-30 bg-tertiary flex gap-3 p-2! w-full items-center justify-between transition-colors",
-    "aria-selected:bg-primary",
+    "group flex w-full items-center justify-between gap-3 p-2 text-left",
+    "lg:border-6 lg:border-card-border lg:bg-tertiary lg:shadow-base lg:transition-colors",
+    "lg:aria-expanded:bg-primary",
     className,
   ]}
-  
 >
-  <div class="flex gap-3 items-center">
+  <span class="flex min-w-0 items-center gap-3">
     <Image
-      fit="cover"
-      height={90}
-      width={134}
-      src={imageUrl as ImageMetadata}
+      src={imageUrl}
       alt=""
-    />  
-    <div class="flex flex-col gap-2">
-      <p class="font-bold text-2xl text-left">{name}</p>
-      <ul class="flex gap-1">
+      width={134}
+      height={90}
+      widths={[134, 268]}
+      sizes="(min-width: 1024px) 8.5rem, 3.5rem"
+      class="h-16 w-14 shrink-0 object-cover lg:h-22.5 lg:w-33.5"
+    />
+    <span class="flex min-w-0 flex-col gap-2">
+      <span class="truncate text-lg font-bold lg:text-2xl">{name}</span>
+      <span class="flex gap-1">
         {visibleSkills.map((skill) => <Chip text={skill.name} />)}
         {hidden > 0 && <Chip text={`+${hidden}`} />}
-      </ul>
-    </div>
-  </div>
+      </span>
+    </span>
+  </span>
 
-  <Icon name="lucide:chevron-right" size={30} />
-</Card>
+  <Icon
+    name="lucide:chevron-down"
+    class="size-6 shrink-0 transition-opacity group-aria-expanded:opacity-0 lg:hidden"
+    aria-hidden="true"
+  />
+  <Icon name="lucide:chevron-right" class="hidden size-7 shrink-0 lg:block" aria-hidden="true" />
+</button>
