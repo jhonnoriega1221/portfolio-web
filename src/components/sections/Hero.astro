@@ -10,7 +10,7 @@ import AvatarGreeting from "../AvatarGreeting.astro";
 
 <Section
   id="home"
-  wrapperClass="pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-50 bg-canvas"
+  wrapperClass="pt-20 lg:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-50 bg-canvas"
 >
   <div
     slot="background"
@@ -26,66 +26,66 @@ import AvatarGreeting from "../AvatarGreeting.astro";
     >
     </div>
 
-    <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-tertiary">
+    <div
+      class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-tertiary"
+    >
     </div>
   </div>
 
   <div
-    class="flex flex-col gap-10 lg:flex-row xl:gap-16 justify-between"
+    class="grid gap-5 grid-cols-[auto_1fr] lg:grid-cols-[minmax(0,36rem)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-9 xl:grid-cols-[minmax(0,42rem)_1fr] xl:gap-x-16"
   >
-    <div class="flex w-full xl:max-w-2xl lg:max-w-xl flex-col lg:gap-8 xl:gap-16">
-      <header class="lg:px-7 xl:px-10">
-        <h1
-          class="font-extrabold text-primary drop-shadow-name-text lg:text-[64px] xl:text-[72px]"
-        >
-          Jhon Noriega
-        </h1>
-        <TitleCard>Front-end Engineer</TitleCard>
+    <header class="col-span-2 row-start-1 lg:col-span-1 lg:px-7 xl:px-10">
+      <h1
+        class="font-extrabold text-primary drop-shadow-name-text text-[50px] lg:text-[64px] xl:text-[72px] text-nowrap"
+      >
+        Jhon Noriega
+      </h1>
+      <TitleCard>Front-end Engineer</TitleCard>
+    </header>
 
-        <ul class="mt-5 flex gap-5">
-          <li>
-            <ButtonIcon as="a" href="/ola" label="GitHub">
-              <Icon name="github" class="size-9 lg:size-10 xl:size-11" />
-            </ButtonIcon>
-          </li>
-          <li>
-            <ButtonIcon as="a" href="/ola" label="LinkedIn">
-              <Icon name="linkedin" class="size-9 lg:size-10 xl:size-11" />
-            </ButtonIcon>
-          </li>
-        </ul>
-      </header>
+    <ul class="col-start-1 row-start-2 lg:mt-5 flex gap-5 self-start lg:px-7 xl:px-10">
+      <li>
+        <ButtonIcon as="a" href="/ola" label="GitHub">
+          <Icon name="github" class="size-9 lg:size-10 xl:size-11" />
+        </ButtonIcon>
+      </li>
+      <li>
+        <ButtonIcon as="a" href="/ola" label="LinkedIn">
+          <Icon name="linkedin" class="size-9 lg:size-10 xl:size-11" />
+        </ButtonIcon>
+      </li>
+    </ul>
 
-      <Card class="relative overflow-hidden bg-card">
-        <div
-          aria-hidden="true"
-          class="halftone absolute -top-60 -left-60 size-110 bg-foreground/5"
-        >
-        </div>
-        <div
-          aria-hidden="true"
-          class="halftone absolute -right-50 -bottom-60 size-110 bg-foreground/5"
-        >
-        </div>
+    <Card class="relative p-4! lg:p-7! col-span-2 row-start-3 lg:col-span-1 lg:self-end overflow-hidden bg-card mt-12 lg:mt-4">
+      <div
+        aria-hidden="true"
+        class="halftone absolute -top-60 -left-60 size-110 bg-foreground/5"
+      >
+      </div>
+      <div
+        aria-hidden="true"
+        class="halftone absolute -right-50 -bottom-60 size-110 bg-foreground/5"
+      >
+      </div>
 
-        <div class="relative">
-          <p class="mb-8 text-[20px] xl:text-[24px] font-semibold">
-            Soy un ingeniero de sistemas enfocado en el desarrollo front-end con
-            +3 años de experiencia construyendo experiencias digitales
-          </p>
-          <div class="flex flex-wrap gap-4">
-            <Button href="/proyectos">
-              Ver proyectos
-              <Icon name="lucide:arrow-right" class="size-7" />
-            </Button>
-            <Button class="bg-canvas!">
-              Ver CV
-              <Icon name="lucide:file-text" class="size-7" />
-            </Button>
-          </div>
+      <div class="relative">
+        <p class="mb-4 lg:mb-8 text-[16px] leading-5 lg:leading-7 lg:text-[20px] xl:text-[24px] font-semibold">
+          Soy un ingeniero de sistemas enfocado en el desarrollo front-end con
+          +3 años de experiencia construyendo experiencias digitales
+        </p>
+        <div class="flex flex-col lg:flex-row gap-4">
+          <Button href="/proyectos">
+            Ver proyectos
+            <Icon name="lucide:arrow-right" class="size-7" />
+          </Button>
+          <Button class="bg-canvas!">
+            Ver CV
+            <Icon name="lucide:file-text" class="size-7" />
+          </Button>
         </div>
-      </Card>
-    </div>
-    <AvatarGreeting class="w-full max-w-md lg:max-w-xl xl:max-w-3xl" />
+      </div>
+    </Card>
+    <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[560px] lg:row-span-3" />
   </div>
 </Section>

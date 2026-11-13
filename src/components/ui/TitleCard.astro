@@ -9,14 +9,14 @@ const { class: className = "", textClass, ...rest } = Astro.props;
 
 <div
   class:list={[
-    "px-3 bg-secondary w-fit xl:py-3 lg:py-2 border-4 shadow-base",
+    "px-3 bg-secondary w-fit xl:py-3 lg:py-2 py-1 border-3 shadow-base",
     className,
   ]}
   {...rest}
 >
   <h2
     class:list={[
-      "xl:text-4xl lg:text-2xl text-base font-bold text-white drop-shadow-title-text",
+      "text-2xl xl:text-4xl lg:text-2xl font-bold text-white drop-shadow-title-text",
       textClass,
     ]}
   >

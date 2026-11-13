@@ -14,7 +14,7 @@ const { id, class: className = "", wrapperClass = "" } = Astro.props;
 >
   <slot name="background" />
 
-  <div class:list={["container-page", className]}>
+  <div class:list={["container-page-mobile lg:container-page", className]}>
     <slot />
   </div>
 </section>
