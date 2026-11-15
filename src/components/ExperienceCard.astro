@@ -20,22 +20,24 @@ const defaultImage =
 const { id, company, image, period, description, role, class: className } = Astro.props;
 ---
 
-<Card class:list={["bg-card", className]}>
-  <div class="flex gap-2 mb-4">
+<Card class:list={["bg-card p-4!", className]}>
+  <div class="grid grid-cols-[46px_1fr] md:grid-cols-[100px_1fr] grid-rows-2 gap-x-3 gap-y-0 mb-4">
     <Image
+    class="aspect-square row-span-1 md:row-span-2"
       alt=""
       height={108}
       width={108}
       src={(image as ImageMetadata) ?? defaultImage}
     />
 
-    <div class="flex-col">
-      <TitleCard
-        textClass="text-foreground! drop-shadow-none! text-xl"
-        class="bg-primary! py-1! px-2! mb-2"
-      >
-        {company}
-      </TitleCard>
+    <TitleCard
+      textClass="text-foreground! drop-shadow-none! text-xl!"
+      class="bg-primary! py-1! px-2! mb-2 h-fit"
+    >
+      {company}
+    </TitleCard>
+
+    <div class="col-span-2 md:col-span-1">
       <p class="text-xl font-bold">{role}</p>
       <p class="flex gap-1 items-center">
         <Icon name="lucide:calendar" />

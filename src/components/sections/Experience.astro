@@ -24,7 +24,7 @@ import TitleCard from "../ui/TitleCard.astro";
   {
     experience.map((experience, i) => (
       <li
-        class="group grid grid-cols-[auto_1fr] gap-x-4 not-first:-mt-[var(--gap-up)]
+        class="group grid grid-cols-[auto_1fr] gap-x-4 not-first:-mt-(--gap-up)
                lg:grid-cols-[1fr_auto_1fr] lg:gap-x-10"
       >
         <div
@@ -32,11 +32,11 @@ import TitleCard from "../ui/TitleCard.astro";
           class="relative col-start-1 row-start-1 lg:col-start-2"
         >
           <span
-            class="absolute top-[var(--dot-y)] bottom-[calc(var(--gap-up)_-_var(--dot-y))] left-1/2
+            class="absolute top-(--dot-y) bottom-[calc(var(--gap-up)-var(--dot-y))] left-1/2
                    w-1 -translate-x-1/2 bg-black group-last:hidden"
           ></span>
           <span
-            class="relative z-10 mt-[calc(var(--dot-y)_-_0.875rem)] block size-7 rounded-full
+            class="relative z-10 mt-[calc(var(--dot-y)-0.875rem)] block size-7 rounded-full
                    border-4 border-black bg-primary"
           ></span>
         </div>
