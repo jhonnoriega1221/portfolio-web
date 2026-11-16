@@ -5,18 +5,18 @@ import Section from "../ui/Section.astro";
 import TitleCard from "../ui/TitleCard.astro";
 ---
 
-<Section class="flex items-center h-[180px] justify-between items-center">
-  <div class="flex items-center gap-10">
+<Section class="flex flex-col lg:flex-row items-center h-auto pb-22! md:pb-8! justify-between gap-8">
+  <div class="flex flex-col lg:flex-row items-center gap-10">
     <div>
       <h1
-        class="font-extrabold text-primary drop-shadow-name-text lg:text-[38px] xl:text-[72px] mb-1"
+        class="font-extrabold text-primary drop-shadow-name-text text-[50px] lg:text-[38px] xl:text-[72px] mb-1"
       >
         Jhon Noriega
       </h1>
       <TitleCard class="p-1!" textClass="text-xl!">Front-end Engineer</TitleCard>
     </div>
-    <div class="h-22 border-l-3"></div>
-    <p>Ideas, codigo y buenas experiencias en la web</p>
+    <div class="hidden lg:block h-22 border-l-3"></div>
+    <p class="max-w-40 lg:max-w-full">Ideas, codigo y buenas experiencias en la web</p>
   </div>
   <ul class="flex gap-8">
     <li>
