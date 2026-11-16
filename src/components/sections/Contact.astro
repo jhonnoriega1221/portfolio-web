@@ -30,7 +30,7 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
       >
       </div>
     </div>
-    <Card class="relative bg-primary lg:h-90 xl:h-130">
+    <Card class="relative bg-primary lg:h-90 xl:h-130 p-2! sm:p-8!">
       <div
         aria-hidden="true"
         class="pointer-events-none absolute inset-0 overflow-clip"
@@ -42,16 +42,17 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
       </div>
 
       <div
-        class="relative grid items-end gap-6 lg:grid-cols-[1fr_1fr] xl:grid-cols-[1fr_1fr] lg:gap-10 h-full"
+        class="relative grid items-end gap-6 md:grid-cols-[1fr_1fr] lg:gap-10 h-full"
       >
-        <div class="flex flex-col gap-5 self-start max-w-190">
-          <h3 class="lg:text-2xl xl:text-4xl font-extrabold mb-2">
+        <div class="flex flex-col gap-3 self-start max-w-190">
+          <h3 class="text-xl text-center sm:text-left lg:text-2xl xl:text-4xl font-extrabold mb-2">
             ¿Tienes una idea o un proyecto en mente?
           </h3>
 
           <SpeechBubble
             tail="responsive"
-            class="text-base lg:text-xl xl:text-2xl lg:p-8! xl:p-10!"
+            class="text-base sm:text-base lg:text-lg xl:text-2xl py-5! rounded-2xl lg:p-8! xl:p-10! w-full!"
+            tailClass="md:-mt-2! md:-rotate-10!"
           >
             ¡Me encantaría saber de ti! Puedes escribirme por WhatsApp o
             enviarme un correo. Estoy abierto a nuevas oportunidades,
@@ -60,13 +61,12 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
         </div>
 
         <div
-          class="grid w-48 justify-self-start -mb-5 sm:w-56 lg:w-100 xl:w-150 lg:-mb-15 xl:-mb-22"
+          class="grid w-70 justify-self-end md:justify-start -mb-8 -mr-10 sm:-mr-13 sm:-mb-14 md:-mb-16 md:mr-auto md:w-90 lg:w-100 xl:w-150 xl:-mb-21"
         >
           <Image
             src={pointWhatsapp}
             alt="Jhon señalando hacia abajo, al botón de WhatsApp"
             widths={[192, 384, 768]}
-            sizes="(min-width: 1280px) 24rem, (min-width: 1024px) 20rem, 12rem"
             class:list={[
               pose,
               "animate-squish",
@@ -77,7 +77,6 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
             src={pointEmail}
             alt=""
             widths={[192, 384, 768]}
-            sizes="(min-width: 1280px) 24rem, (min-width: 1024px) 20rem, 12rem"
             class:list={[
               pose,
               "opacity-0",
@@ -89,19 +88,19 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
     </Card>
 
     <div
-      class="flex flex-col-reverse h-30 gap-5 lg:flex-row lg:justify-center lg:gap-10"
+      class="flex flex-col-reverse gap-5 md:flex-row md:justify-center md:gap-10"
     >
       <Button
         as="a"
         data-link="email"
         href="mailto:jhonlex17@gmail.com"
-        class="flex items-center px-8 justify-between gap-8 bg-canvas! min-w-100 font-normal"
+        class="flex items-center px-8 justify-between! gap-8 bg-canvas! font-normal h-28!"
       >
         <span class="flex items-center gap-4">
-          <Icon name="lucide:mail" class="size-14" aria-hidden="true" />
-          <span class="text-2xl">Envíame un Email</span>
+          <Icon name="lucide:mail" class="size-15" aria-hidden="true" />
+          <span class="text-xl">Envíame un Email</span>
         </span>
-        <Icon name="lucide:move-up-right" class="size-9" aria-hidden="true" />
+        <Icon name="lucide:move-up-right" class="size-7" aria-hidden="true" />
       </Button>
 
       <Button
@@ -110,19 +109,19 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
         href="https://wa.me/573003888247"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center px-8 justify-between gap-8 bg-whatsapp! text-white border-black min-w-100 font-normal"
+        class="flex items-center px-8 justify-between! md:justify-center! gap-8 bg-whatsapp! text-white border-black font-normal h-28!"
       >
         <span class="flex items-center gap-4">
           <Icon
             name="simple-icons:whatsapp"
-            class="size-14"
+            class="size-15"
             aria-hidden="true"
           />
-          <span class="text-2xl"
+          <span class="text-xl"
             >Escríbeme por <strong class="block">WhatsApp</strong></span
           >
         </span>
-        <Icon name="lucide:move-up-right" class="size-9" aria-hidden="true" />
+        <Icon name="lucide:move-up-right" class="size-7" aria-hidden="true" />
       </Button>
     </div>
   </div>
