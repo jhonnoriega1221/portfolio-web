@@ -10,22 +10,13 @@ import AvatarGreeting from "../AvatarGreeting.astro";
 
 <Section
   id="home"
-  wrapperClass="pt-20 md:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-50 bg-canvas"
+  wrapperClass="pt-20 md:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-20 lg:pb-50 bg-canvas"
 >
   <div
     slot="background"
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 -z-10"
   >
-    <div class="halftone absolute -top-90 -left-90 size-160 bg-foreground/20">
-    </div>
-    <div class="halftone absolute -top-100 -right-90 size-160 bg-primary"></div>
-
-    <div
-      class="halftone absolute -top-100 left-1/2 size-180 -translate-x-1/2 bg-foreground/20"
-    >
-    </div>
-
     <div
       class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-tertiary"
     >
@@ -75,8 +66,8 @@ import AvatarGreeting from "../AvatarGreeting.astro";
           +3 años de experiencia construyendo experiencias digitales
         </p>
         <div class="flex flex-col md:flex-row gap-4">
-          <Button href="/proyectos">
-            Ver proyectos
+          <Button as="a" href="#contact">
+            ¡Hablémos!
             <Icon name="lucide:arrow-right" class="size-7" />
           </Button>
           <Button class="bg-canvas!">
