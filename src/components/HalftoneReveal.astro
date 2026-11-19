@@ -1,0 +1,180 @@
+---
+interface Props {
+  delay?: number;
+  duration?: number;
+  dotSpacing?: number;
+  offsetY?: number;
+  direction?: 'uniform' | 'left-to-right' | 'right-to-left' | 'top-to-bottom' | 'bottom-to-top';
+  immediate?: boolean;
+  class?: string;
+}
+
+const {
+  delay = 0,
+  duration = 750,
+  dotSpacing = 14,
+  offsetY = 6,
+  direction = 'uniform',
+  immediate = false,
+  class: className = '',
+} = Astro.props;
+
+const inlineStyle = `--dot-spacing: ${dotSpacing}px; --reveal-duration: ${duration}ms; --reveal-delay: ${delay}ms; --offset-y: ${offsetY}px;`;
+---
+
+<halftone-reveal
+  data-direction={direction}
+  data-immediate={immediate ? 'true' : 'false'}
+  style={inlineStyle}
+  class:list={['block', className]}
+>
+  <slot />
+</halftone-reveal>
+
+<style is:global>
+  @property --dot-radius {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+  }
+
+  @property --wipe-progress {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+  }
+
+  halftone-reveal {
+    --dot-radius: 0%;
+    --wipe-progress: 0%;
+    --wipe-angle: 90deg;
+
+    opacity: 0;
+    transform: translateY(var(--offset-y, 6px));
+    will-change: transform, opacity;
+
+    --dots-layer: radial-gradient(
+      circle,
+      #000 var(--dot-radius),
+      transparent calc(var(--dot-radius) + 1%)
+    );
+
+    --wipe-layer: linear-gradient(
+      var(--wipe-angle),
+      #000 calc(var(--wipe-progress) - 25%),
+      transparent var(--wipe-progress)
+    );
+
+    -webkit-mask-image: var(--dots-layer);
+    mask-image: var(--dots-layer);
+    -webkit-mask-size: var(--dot-spacing, 14px) var(--dot-spacing, 14px);
+    mask-size: var(--dot-spacing, 14px) var(--dot-spacing, 14px);
+    -webkit-mask-position: center;
+    mask-position: center;
+
+    transition:
+      --dot-radius var(--reveal-duration, 750ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      --wipe-progress var(--reveal-duration, 750ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      transform var(--reveal-duration, 750ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+      opacity 180ms ease-out var(--reveal-delay, 0ms);
+  }
+
+  halftone-reveal:not([data-direction='uniform']) {
+    -webkit-mask-image: var(--dots-layer), var(--wipe-layer);
+    mask-image: var(--dots-layer), var(--wipe-layer);
+    -webkit-mask-size: var(--dot-spacing, 14px) var(--dot-spacing, 14px), 100% 100%;
+    mask-size: var(--dot-spacing, 14px) var(--dot-spacing, 14px), 100% 100%;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  halftone-reveal[data-direction='left-to-right'] { --wipe-angle: 90deg; }
+  halftone-reveal[data-direction='right-to-left'] { --wipe-angle: 270deg; }
+  halftone-reveal[data-direction='top-to-bottom'] { --wipe-angle: 180deg; }
+  halftone-reveal[data-direction='bottom-to-top'] { --wipe-angle: 0deg; }
+
+  halftone-reveal.is-revealed {
+    --dot-radius: 100%;
+    --wipe-progress: 125%;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  halftone-reveal.is-cleaned {
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    halftone-reveal {
+      --dot-radius: 75%;
+      --wipe-progress: 125%;
+      opacity: 1;
+      transform: none;
+      -webkit-mask-image: none !important;
+      mask-image: none !important;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  class HalftoneReveal extends HTMLElement {
+    private observer: IntersectionObserver | null = null;
+    private fallbackTimer: number | null = null;
+
+    private handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.target === this && (e.propertyName === '--dot-radius' || e.propertyName === 'transform')) {
+        this.classList.add('is-cleaned');
+        this.removeEventListener('transitionend', this.handleTransitionEnd);
+      }
+    };
+
+    connectedCallback() {
+      const isImmediate = this.dataset.immediate === 'true';
+      this.addEventListener('transitionend', this.handleTransitionEnd);
+
+      const triggerReveal = () => {
+        this.classList.add('is-revealed');
+        // Fallback por si el navegador no dispara transitionend en @property
+        const duration = parseInt(this.style.getPropertyValue('--reveal-duration') || '750', 10);
+        const delay = parseInt(this.style.getPropertyValue('--reveal-delay') || '0', 10);
+        this.fallbackTimer = window.setTimeout(() => {
+          this.classList.add('is-cleaned');
+        }, duration + delay + 100);
+      };
+
+      if (isImmediate) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(triggerReveal);
+        });
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              triggerReveal();
+              this.observer?.unobserve(this);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      this.observer.observe(this);
+    }
+
+    disconnectedCallback() {
+      this.observer?.disconnect();
+      if (this.fallbackTimer) clearTimeout(this.fallbackTimer);
+      this.removeEventListener('transitionend', this.handleTransitionEnd);
+    }
+  }
+
+  if (!customElements.get('halftone-reveal')) {
+    customElements.define('halftone-reveal', HalftoneReveal);
+  }
+</script>

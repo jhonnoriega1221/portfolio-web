@@ -1,0 +1,118 @@
+---
+interface Props {
+  delay?: number;
+  duration?: number;
+  origin?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center';
+  initialWidth?: string;
+  initialHeight?: string;
+  immediate?: boolean;
+  class?: string;
+}
+
+const {
+  delay = 0,
+  duration = 650,
+  origin = 'top-left',
+  initialWidth = '22%',
+  initialHeight = '18%',
+  immediate = false,
+  class: className = '',
+} = Astro.props;
+
+const insetMap = {
+  'top-left': `inset(0 calc(100% - ${initialWidth}) calc(100% - ${initialHeight}) 0)`,
+  'top-right': `inset(0 0 calc(100% - ${initialHeight}) calc(100% - ${initialWidth}))`,
+  'bottom-left': `inset(calc(100% - ${initialHeight}) calc(100% - ${initialWidth}) 0 0)`,
+  'bottom-right': `inset(calc(100% - ${initialHeight}) 0 0 calc(100% - ${initialWidth}))`,
+  'center': `inset(calc(50% - ${initialHeight} / 2) calc(50% - ${initialWidth} / 2))`,
+};
+
+const inlineStyle = `--initial-clip: ${insetMap[origin]}; --win-duration: ${duration}ms; --win-delay: ${delay}ms;`;
+---
+
+<window-reveal
+  data-immediate={immediate ? 'true' : 'false'}
+  style={inlineStyle}
+  class:list={['block', className]}
+>
+  <slot />
+</window-reveal>
+
+<style is:global>
+  window-reveal {
+    opacity: 0;
+    clip-path: var(--initial-clip);
+    will-change: clip-path, opacity;
+    transition:
+      clip-path var(--win-duration, 650ms) cubic-bezier(0.16, 1, 0.3, 1) var(--win-delay, 0ms),
+      opacity 120ms ease-out var(--win-delay, 0ms);
+  }
+
+  window-reveal.is-open {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+
+  window-reveal.is-cleaned {
+    clip-path: none !important;
+    will-change: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    window-reveal {
+      opacity: 1;
+      clip-path: none !important;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  class WindowReveal extends HTMLElement {
+    private observer: IntersectionObserver | null = null;
+
+    private handleTransitionEnd = (e: TransitionEvent) => {
+      if (e.target === this && e.propertyName === 'clip-path') {
+        this.classList.add('is-cleaned');
+        this.removeEventListener('transitionend', this.handleTransitionEnd);
+      }
+    };
+
+    connectedCallback() {
+      const isImmediate = this.dataset.immediate === 'true';
+      this.addEventListener('transitionend', this.handleTransitionEnd);
+
+      if (isImmediate) {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            this.classList.add('is-open');
+          });
+        });
+        return;
+      }
+
+      this.observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              this.classList.add('is-open');
+              this.observer?.unobserve(this);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      this.observer.observe(this);
+    }
+
+    disconnectedCallback() {
+      this.observer?.disconnect();
+      this.removeEventListener('transitionend', this.handleTransitionEnd);
+    }
+  }
+
+  if (!customElements.get('window-reveal')) {
+    customElements.define('window-reveal', WindowReveal);
+  }
+</script>

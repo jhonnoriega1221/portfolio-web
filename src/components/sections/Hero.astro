@@ -6,8 +6,11 @@ import Section from "../ui/Section.astro";
 import TitleCard from "../ui/TitleCard.astro";
 import ButtonIcon from "../ui/ButtonIcon.astro";
 import AvatarGreeting from "../AvatarGreeting.astro";
+import HalftoneReveal from "../HalftoneReveal.astro";
+import WindowReveal from "../WindowReveal.astro";
 ---
 
+<HalftoneReveal duration={1500} direction="top-to-bottom" immediate>
 <Section
   id="home"
   wrapperClass="pt-20 md:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-20 lg:pb-50 bg-canvas"
@@ -77,6 +80,9 @@ import AvatarGreeting from "../AvatarGreeting.astro";
         </div>
       </div>
     </Card>
-    <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[490px] xl:max-h-[700px] lg:row-span-3" />
-  </div>
+    <WindowReveal duration={1000} delay={1000} origin="top-left" immediate class="lg:row-span-3" >
+      <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[490px] xl:max-h-[700px]" />
+    </WindowReveal>
+    </div>
 </Section>
+</HalftoneReveal>
