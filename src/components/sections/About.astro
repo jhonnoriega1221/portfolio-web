@@ -7,6 +7,8 @@ import avatar from "../../assets/avatar/about.png";
 import { categories, skills } from "../../data/skills";
 import SkillSticker from "../SkillSticker.astro";
 import SpeechBubble from "../ui/SpeechBubble.astro";
+import HalftoneReveal from "../HalftoneReveal.astro";
+import WindowReveal from "../WindowReveal.astro";
 
 const grouped = categories.map((category) => ({
   ...category,
@@ -15,50 +17,53 @@ const grouped = categories.map((category) => ({
 ---
 
 <Section id="about" wrapperClass="bg-tertiary pb-20 lg:pb-50">
-  <TitleCard>Sobre mí</TitleCard>
+  <HalftoneReveal duration={1500} direction="top-to-bottom">
+    <TitleCard>Sobre mí</TitleCard>
+  </HalftoneReveal>
 
   <div
     slot="background"
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 -z-10"
   >
-    <div
-      class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-secondary"
-    >
-    </div>
+    <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-secondary"></div>
   </div>
 
-  <Card
-    data-about
-    class="relative mt-5 flex flex-col md:flex-row items-end gap-8 overflow-hidden bg-card-secondary md:gap-12 p-0! h-128 md:h-50 lg:h-64 mb-12"
-  >
-    <SpeechBubble
-      tail="responsive"
-      class="text-xl w-full  md:max-w-full mr-auto md:mr-0 -top-8 md:top-0 -left-8 h-auto pt-12 md:pt-5 pl-12 pr-10 pb-5 rounded-[96px]! md:rounded-full! md:text-xl font-bold md:px-16 md:h-full! md:w-180 xl:w-240"
-      tailClass="md:-ml-1!"
+  <HalftoneReveal duration={1500} direction="top-to-bottom">
+    <Card
+      data-about
+      class="relative mt-5 flex flex-col md:flex-row items-end gap-8 overflow-hidden bg-card-secondary md:gap-12 p-0! h-128 md:h-50 lg:h-64 mb-12"
     >
-      Soy un ingeniero front-end al que le apasiona crear interfaces accesibles,
-      adaptables y de alto rendimiento. Disfruto transformando ideas en
-      productos bien ejecutados y colaborando con personas excepcionales para
-      hacer que las ideas se hagan realidad.
-    </SpeechBubble>
+      <SpeechBubble
+        tail="responsive"
+        class="text-xl w-full md:max-w-full mr-auto md:mr-0 -top-8 md:top-0 -left-8 h-auto pt-12 md:pt-5 pl-12 pr-10 pb-5 rounded-[96px]! md:rounded-full! md:text-xl font-bold md:px-16 md:h-full! md:w-180 xl:w-240"
+        tailClass="md:-ml-1!"
+      >
+        Soy un ingeniero front-end al que le apasiona crear interfaces
+        accesibles, adaptables y de alto rendimiento. Disfruto transformando
+        ideas en productos bien ejecutados y colaborando con personas
+        excepcionales para hacer que las ideas se hagan realidad.
+      </SpeechBubble>
 
-    <Image
-      src={avatar}
-      alt="Jhon explicando con la mano extendida"
-      widths={[160, 320, 480]}
-      sizes="(min-width: 1024px) 16rem, 8rem"
-      loading="lazy"
-      decoding="async"
-      class="absolute lg:relative ml-auto -bottom-10 -right-5 lg:-bottom-5 shrink-0 w-65 lg:w-75 transform-[scaleX(-1)] lg:ml-0 lg:mr-auto"
-    />
-  </Card>
+      <Image
+        src={avatar}
+        alt="Jhon explicando con la mano extendida"
+        widths={[160, 320, 480]}
+        sizes="(min-width: 1024px) 16rem, 8rem"
+        loading="lazy"
+        decoding="async"
+        class="absolute lg:relative ml-auto -bottom-10 -right-5 lg:-bottom-5 shrink-0 w-65 lg:w-75 transform-[scaleX(-1)] lg:ml-0 lg:mr-auto"
+      />
+    </Card>
+  </HalftoneReveal>
 
   <div class="">
-    <TitleCard class="bg-primary!">Mis skills</TitleCard>
+    <HalftoneReveal duration={1500} direction="top-to-bottom">
+      <TitleCard class="bg-primary!">Mis skills</TitleCard>
+    </HalftoneReveal>
     <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-      {
-        grouped.map((category) => (
+      {grouped.map((category, index) => (
+        <WindowReveal origin="top-left">
           <Card
             class="bg-canvas px-3! lg:px-5! pt-2! lg:pt-5! pb-4! lg:pb-7!"
             as="article"
@@ -73,13 +78,15 @@ const grouped = categories.map((category) => ({
             </TitleCard>
 
             <ul class="flex flex-wrap gap-4">
-              {category.items.map((skill) => (
-                <SkillSticker skill={skill} />
+              {category.items.map((skill, index) => (
+                <HalftoneReveal delay={index * 100}>
+                  <SkillSticker skill={skill} />
+                </HalftoneReveal>
               ))}
             </ul>
           </Card>
-        ))
-      }
+        </WindowReveal>
+      ))}
     </div>
   </div>
 </Section>

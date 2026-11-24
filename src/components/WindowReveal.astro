@@ -70,11 +70,30 @@ const inlineStyle = `--initial-clip: ${insetMap[origin]}; --win-duration: ${dura
 <script>
   class WindowReveal extends HTMLElement {
     private observer: IntersectionObserver | null = null;
+    private revealed = false;
 
     private handleTransitionEnd = (e: TransitionEvent) => {
       if (e.target === this && e.propertyName === 'clip-path') {
         this.classList.add('is-cleaned');
         this.removeEventListener('transitionend', this.handleTransitionEnd);
+      }
+    };
+
+    private openWindow() {
+      if (this.revealed) return;
+      this.revealed = true;
+      this.classList.add('is-open');
+      this.observer?.disconnect();
+      window.removeEventListener('scroll', this.checkInViewport);
+      window.removeEventListener('resize', this.checkInViewport);
+    }
+
+    private checkInViewport = () => {
+      if (this.revealed) return;
+      const rect = this.getBoundingClientRect();
+      const viewHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top < viewHeight * 0.98 && rect.bottom > 0) {
+        this.openWindow();
       }
     };
 
@@ -85,7 +104,7 @@ const inlineStyle = `--initial-clip: ${insetMap[origin]}; --win-duration: ${dura
       if (isImmediate) {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
-            this.classList.add('is-open');
+            this.openWindow();
           });
         });
         return;
@@ -93,21 +112,29 @@ const inlineStyle = `--initial-clip: ${insetMap[origin]}; --win-duration: ${dura
 
       this.observer = new IntersectionObserver(
         (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              this.classList.add('is-open');
-              this.observer?.unobserve(this);
+          for (const entry of entries) {
+            if (entry.isIntersecting || entry.boundingClientRect.top < window.innerHeight) {
+              this.openWindow();
+              break;
             }
-          });
+          }
         },
-        { threshold: 0.1 }
+        {
+          threshold: 0.01,
+        }
       );
 
       this.observer.observe(this);
+      window.addEventListener('scroll', this.checkInViewport, { passive: true });
+      window.addEventListener('resize', this.checkInViewport, { passive: true });
+
+      requestAnimationFrame(() => this.checkInViewport());
     }
 
     disconnectedCallback() {
       this.observer?.disconnect();
+      window.removeEventListener('scroll', this.checkInViewport);
+      window.removeEventListener('resize', this.checkInViewport);
       this.removeEventListener('transitionend', this.handleTransitionEnd);
     }
   }

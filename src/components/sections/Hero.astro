@@ -10,7 +10,6 @@ import HalftoneReveal from "../HalftoneReveal.astro";
 import WindowReveal from "../WindowReveal.astro";
 ---
 
-<HalftoneReveal duration={1500} direction="top-to-bottom" immediate>
 <Section
   id="home"
   wrapperClass="pt-20 md:pt-[calc(var(--navbar-height-desktop)+var(--navbar-spacing)*2+32px)] pb-20 lg:pb-50 bg-canvas"
@@ -20,69 +19,66 @@ import WindowReveal from "../WindowReveal.astro";
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 -z-10"
   >
-    <div
-      class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-tertiary"
-    >
-    </div>
+    <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-tertiary"></div>
   </div>
 
-  <div
-    class="grid gap-5 grid-cols-[auto_1fr] lg:grid-cols-[minmax(0,36rem)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-15 xl:grid-cols-[minmax(0,42rem)_1fr] xl:gap-x-16"
-  >
-    <header class="col-span-2 row-start-1 lg:col-span-1 lg:px-7 xl:px-10">
-      <h1
-        class="font-extrabold text-primary drop-shadow-name-text text-[50px] lg:text-[64px] xl:text-[72px] text-nowrap"
-      >
-        Jhon Noriega
-      </h1>
-      <TitleCard>Front-end Engineer</TitleCard>
-    </header>
+  <HalftoneReveal duration={1500} direction="top-to-bottom">
+    <div class="grid gap-5 grid-cols-[auto_1fr] lg:grid-cols-[minmax(0,36rem)_1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-15 xl:grid-cols-[minmax(0,42rem)_1fr] xl:gap-x-16">
+      <header class="col-span-2 row-start-1 lg:col-span-1 lg:px-7 xl:px-10">
+        <h1 class="font-extrabold text-primary drop-shadow-name-text text-[50px] lg:text-[64px] xl:text-[72px] text-nowrap">
+          Jhon Noriega
+        </h1>
+        <TitleCard>Front-end Engineer</TitleCard>
+      </header>
 
-    <ul class="col-start-1 row-start-2 lg:mt-5 flex gap-5 self-start lg:px-7 xl:px-10">
-      <li>
-        <ButtonIcon as="a" href="/ola" label="GitHub">
-          <Icon name="github" class="size-9 lg:size-10 xl:size-11" />
-        </ButtonIcon>
-      </li>
-      <li>
-        <ButtonIcon as="a" href="/ola" label="LinkedIn">
-          <Icon name="linkedin" class="size-9 lg:size-10 xl:size-11" />
-        </ButtonIcon>
-      </li>
-    </ul>
+      <ul class="col-start-1 row-start-2 lg:mt-5 flex gap-5 self-start lg:px-7 xl:px-10">
+        <li>
+          <ButtonIcon as="a" href="/ola" label="GitHub">
+            <Icon name="github" class="size-9 lg:size-10 xl:size-11" />
+          </ButtonIcon>
+        </li>
+        <li>
+          <ButtonIcon as="a" href="/ola" label="LinkedIn">
+            <Icon name="linkedin" class="size-9 lg:size-10 xl:size-11" />
+          </ButtonIcon>
+        </li>
+      </ul>
 
-    <Card class="relative p-4! lg:p-7! col-span-2 row-start-3 lg:col-span-1 lg:self-end overflow-hidden bg-card mt-12 mb-0 xl:mb-12 lg:mt-4">
-      <div
-        aria-hidden="true"
-        class="halftone absolute -top-60 -left-60 size-110 bg-foreground/5"
-      >
-      </div>
-      <div
-        aria-hidden="true"
-        class="halftone absolute -right-50 -bottom-60 size-110 bg-foreground/5"
-      >
-      </div>
+      <Card class="relative p-4! lg:p-7! col-span-2 row-start-3 lg:col-span-1 lg:self-end overflow-hidden bg-card mt-12 mb-0 xl:mb-12 lg:mt-4">
+        <div
+          aria-hidden="true"
+          class="halftone absolute -top-60 -left-60 size-110 bg-foreground/5"
+        ></div>
+        <div
+          aria-hidden="true"
+          class="halftone absolute -right-50 -bottom-60 size-110 bg-foreground/5"
+        ></div>
 
-      <div class="relative">
-        <p class="mb-4 lg:mb-8 text-[16px] leading-5 md:leading-7 md:text-[20px] xl:text-[24px] font-semibold">
-          Soy un ingeniero de sistemas enfocado en el desarrollo front-end con
-          +3 años de experiencia construyendo experiencias digitales
-        </p>
-        <div class="flex flex-col md:flex-row gap-4">
-          <Button as="a" href="#contact">
-            ¡Hablémos!
-            <Icon name="lucide:arrow-right" class="size-7" />
-          </Button>
-          <Button class="bg-canvas!">
-            Ver CV
-            <Icon name="lucide:file-text" class="size-7" />
-          </Button>
+        <div class="relative">
+          <p class="mb-4 lg:mb-8 text-[16px] leading-5 md:leading-7 md:text-[20px] xl:text-[24px] font-semibold">
+            Soy un ingeniero de sistemas enfocado en el desarrollo front-end con
+            +3 años de experiencia construyendo experiencias digitales
+          </p>
+          <div class="flex flex-col md:flex-row gap-4">
+            <Button as="a" href="#contact">
+              ¡Hablémos!
+              <Icon name="lucide:arrow-right" class="size-7" />
+            </Button>
+            <Button class="bg-canvas!">
+              Ver CV
+              <Icon name="lucide:file-text" class="size-7" />
+            </Button>
+          </div>
         </div>
-      </div>
-    </Card>
-    <WindowReveal duration={1000} delay={1000} origin="top-left" immediate class="lg:row-span-3" >
-      <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[490px] xl:max-h-[700px]" />
-    </WindowReveal>
+      </Card>
+      <WindowReveal
+        duration={1000}
+        delay={1000}
+        origin="top-left"
+        class="lg:row-span-3"
+      >
+        <AvatarGreeting class="ml-auto w-full aspect-square max-h-[350px] lg:max-h-[490px] xl:max-h-[700px]" />
+      </WindowReveal>
     </div>
+  </HalftoneReveal>
 </Section>
-</HalftoneReveal>
