@@ -8,13 +8,16 @@ import SpeechBubble from "../ui/SpeechBubble.astro";
 import pointWhatsapp from "../../assets/avatar/contact_1.png";
 import pointEmail from "../../assets/avatar/contact_2.png";
 import Button from "../ui/Button.astro";
+import HalftoneReveal from "../HalftoneReveal.astro";
+import WindowReveal from "../WindowReveal.astro";
 
 const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
 ---
 
 <Section id="contact" wrapperClass="bg-tertiary pb-20 lg:pb-50">
-  <TitleCard>Contacto</TitleCard>
-
+  <HalftoneReveal duration={1500} direction="top-to-bottom">
+    <TitleCard>Contacto</TitleCard>
+  </HalftoneReveal>
   <div
     data-contact
     data-pointing="whatsapp"
@@ -25,104 +28,97 @@ const pose = "col-start-1 row-start-1 h-auto w-full origin-bottom";
       aria-hidden="true"
       class="pointer-events-none absolute inset-0 -z-10"
     >
-      <div
-        class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"
-      >
-      </div>
+      <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"></div>
     </div>
-    <Card class="relative bg-primary lg:h-90 xl:h-130 p-2! sm:p-8!">
-      <div
-        aria-hidden="true"
-        class="pointer-events-none absolute inset-0 overflow-clip"
-      >
+    <WindowReveal delay={500}>
+      <Card class="relative bg-primary lg:h-90 xl:h-130 p-2! sm:p-8!">
         <div
-          class="halftone absolute right-15 xl:-right-20 -bottom-40 lg:-bottom-60 size-160 xl:size-250 bg-card/40"
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 overflow-clip"
         >
-        </div>
-      </div>
-
-      <div
-        class="relative grid items-end gap-6 md:grid-cols-[1fr_1fr] lg:gap-10 h-full"
-      >
-        <div class="flex flex-col gap-3 self-start max-w-190">
-          <h3 class="text-xl text-center sm:text-left lg:text-2xl xl:text-4xl font-extrabold mb-2">
-            ¿Tienes una idea o un proyecto en mente?
-          </h3>
-
-          <SpeechBubble
-            tail="responsive"
-            class="text-base sm:text-base lg:text-lg xl:text-2xl py-5! rounded-2xl lg:p-8! xl:p-10! w-full!"
-            tailClass="md:-mt-2! md:-rotate-10!"
-          >
-            ¡Me encantaría saber de ti! Puedes escribirme por WhatsApp o
-            enviarme un correo. Estoy abierto a nuevas oportunidades,
-            colaboraciones y buenos retos.
-          </SpeechBubble>
+          <div class="halftone absolute right-15 xl:-right-20 -bottom-40 lg:-bottom-60 size-160 xl:size-250 bg-card/40"></div>
         </div>
 
-        <div
-          class="grid w-70 justify-self-end md:justify-start -mb-8 -mr-10 sm:-mr-13 sm:-mb-14 md:-mb-16 md:mr-auto md:w-90 lg:w-100 xl:w-150 xl:-mb-21"
+        <div class="relative grid items-end gap-6 md:grid-cols-[1fr_1fr] lg:gap-10 h-full">
+          <div class="flex flex-col gap-3 self-start max-w-190">
+            <h3 class="text-xl text-center sm:text-left lg:text-2xl xl:text-4xl font-extrabold mb-2">
+              ¿Tienes una idea o un proyecto en mente?
+            </h3>
+
+            <SpeechBubble
+              tail="responsive"
+              class="text-base sm:text-base lg:text-lg xl:text-2xl py-5! rounded-2xl lg:p-8! xl:p-10! w-full!"
+              tailClass="md:-mt-2! md:-rotate-10!"
+            >
+              ¡Me encantaría saber de ti! Puedes escribirme por WhatsApp o
+              enviarme un correo. Estoy abierto a nuevas oportunidades,
+              colaboraciones y buenos retos.
+            </SpeechBubble>
+          </div>
+
+          <div class="grid w-70 justify-self-end md:justify-start -mb-8 -mr-10 sm:-mr-13 sm:-mb-14 md:-mb-16 md:mr-auto md:w-90 lg:w-100 xl:w-150 xl:-mb-21">
+            <Image
+              src={pointWhatsapp}
+              alt="Jhon señalando hacia abajo, al botón de WhatsApp"
+              widths={[192, 384, 768]}
+              class:list={[
+                pose,
+                "animate-squish",
+                "group-data-[pointing=email]/contact:animate-none group-data-[pointing=email]/contact:opacity-0",
+              ]}
+            />
+            <Image
+              src={pointEmail}
+              alt=""
+              widths={[192, 384, 768]}
+              class:list={[
+                pose,
+                "opacity-0",
+                "group-data-[pointing=email]/contact:opacity-100 group-data-[pointing=email]/contact:animate-squish",
+              ]}
+            />
+          </div>
+        </div>
+      </Card>
+    </WindowReveal>
+
+    <div class="flex flex-col-reverse gap-5 md:flex-row md:justify-center md:gap-10">
+      <HalftoneReveal delay={1000}>
+        <Button
+          as="a"
+          data-link="email"
+          href="mailto:jhonlex17@gmail.com"
+          class="flex items-center px-8 justify-between! gap-8 bg-canvas! font-normal h-28!"
         >
-          <Image
-            src={pointWhatsapp}
-            alt="Jhon señalando hacia abajo, al botón de WhatsApp"
-            widths={[192, 384, 768]}
-            class:list={[
-              pose,
-              "animate-squish",
-              "group-data-[pointing=email]/contact:animate-none group-data-[pointing=email]/contact:opacity-0",
-            ]}
-          />
-          <Image
-            src={pointEmail}
-            alt=""
-            widths={[192, 384, 768]}
-            class:list={[
-              pose,
-              "opacity-0",
-              "group-data-[pointing=email]/contact:opacity-100 group-data-[pointing=email]/contact:animate-squish",
-            ]}
-          />
-        </div>
-      </div>
-    </Card>
-
-    <div
-      class="flex flex-col-reverse gap-5 md:flex-row md:justify-center md:gap-10"
-    >
-      <Button
-        as="a"
-        data-link="email"
-        href="mailto:jhonlex17@gmail.com"
-        class="flex items-center px-8 justify-between! gap-8 bg-canvas! font-normal h-28!"
-      >
-        <span class="flex items-center gap-4">
-          <Icon name="lucide:mail" class="size-15" aria-hidden="true" />
-          <span class="text-xl">Envíame un Email</span>
-        </span>
-        <Icon name="lucide:move-up-right" class="size-7" aria-hidden="true" />
-      </Button>
-
-      <Button
-        as="a"
-        data-link="whatsapp"
-        href="https://wa.me/573003888247"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="flex items-center px-8 justify-between! md:justify-center! gap-8 bg-whatsapp! text-white border-black font-normal h-28!"
-      >
-        <span class="flex items-center gap-4">
-          <Icon
-            name="simple-icons:whatsapp"
-            class="size-15"
-            aria-hidden="true"
-          />
-          <span class="text-xl"
-            >Escríbeme por <strong class="block">WhatsApp</strong></span
-          >
-        </span>
-        <Icon name="lucide:move-up-right" class="size-7" aria-hidden="true" />
-      </Button>
+          <span class="flex items-center gap-4">
+            <Icon name="lucide:mail" class="size-15" aria-hidden="true" />
+            <span class="text-xl">Envíame un Email</span>
+          </span>
+          <Icon name="lucide:move-up-right" class="size-7" aria-hidden="true" />
+        </Button>
+      </HalftoneReveal>
+      <HalftoneReveal delay={1200}>
+        <Button
+          as="a"
+          data-link="whatsapp"
+          href="https://wa.me/573003888247"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center px-8 justify-between! md:justify-center! gap-8 bg-whatsapp! text-white border-black font-normal h-28!"
+        >
+          <span class="flex items-center gap-4">
+            <Icon
+              name="simple-icons:whatsapp"
+              class="size-15"
+              aria-hidden="true"
+            />
+            <span class="text-xl">
+              Escríbeme por <strong class="block">WhatsApp</strong>
+            </span>
+          </span>
+          <Icon name="lucide:move-up-right" class="size-7" aria-hidden="true" />
+        </Button>
+      </HalftoneReveal>
     </div>
   </div>
 </Section>

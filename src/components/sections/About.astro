@@ -29,7 +29,7 @@ const grouped = categories.map((category) => ({
     <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-secondary"></div>
   </div>
 
-  <HalftoneReveal duration={1500} direction="top-to-bottom">
+  <WindowReveal duration={1000} origin="top-left">
     <Card
       data-about
       class="relative mt-5 flex flex-col md:flex-row items-end gap-8 overflow-hidden bg-card-secondary md:gap-12 p-0! h-128 md:h-50 lg:h-64 mb-12"
@@ -55,7 +55,7 @@ const grouped = categories.map((category) => ({
         class="absolute lg:relative ml-auto -bottom-10 -right-5 lg:-bottom-5 shrink-0 w-65 lg:w-75 transform-[scaleX(-1)] lg:ml-0 lg:mr-auto"
       />
     </Card>
-  </HalftoneReveal>
+  </WindowReveal>
 
   <div class="">
     <HalftoneReveal duration={1500} direction="top-to-bottom">

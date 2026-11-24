@@ -3,12 +3,19 @@ import { experience } from "../../data/experience";
 import ExperienceCard from "../ExperienceCard.astro";
 import Section from "../ui/Section.astro";
 import TitleCard from "../ui/TitleCard.astro";
+import HalftoneReveal from "../HalftoneReveal.astro";
+import WindowReveal from "../WindowReveal.astro";
+
+const timelineDuration = 1200;
+const totalItems = experience.length;
 ---
 
 <Section id="experience" wrapperClass="bg-canvas pb-20 lg:pb-50">
-  <TitleCard class="mb-5">Experiencia</TitleCard>
+  <HalftoneReveal duration={1000} direction="top-to-bottom">
+    <TitleCard class="mb-5">Experiencia</TitleCard>
+  </HalftoneReveal>
 
-   <div
+  <div
     slot="background"
     aria-hidden="true"
     class="pointer-events-none absolute inset-0 -z-10"
@@ -19,40 +26,63 @@ import TitleCard from "../ui/TitleCard.astro";
     </div>
   </div>
 
-  <ol    class="relative mt-10 [--dot-y:1.5rem] [--gap-up:-2rem] lg:[--dot-y:6rem] lg:[--gap-up:3rem]"
- >
-  {
-    experience.map((experience, i) => (
-      <li
-        class="group grid grid-cols-[auto_1fr] gap-x-4 not-first:-mt-(--gap-up)
-               lg:grid-cols-[1fr_auto_1fr] lg:gap-x-10"
-      >
-        <div
-          aria-hidden="true"  
-          class="relative col-start-1 row-start-1 lg:col-start-2"
-        >
-          <span
-            class="absolute top-(--dot-y) bottom-[calc(var(--gap-up)-var(--dot-y))] left-1/2
-                   w-1 -translate-x-1/2 bg-black group-last:hidden"
-          ></span>
-          <span
-            class="relative z-10 mt-[calc(var(--dot-y)-0.875rem)] block size-7 rounded-full
-                   border-4 border-black bg-primary"
-          ></span>
-        </div>
-      <ExperienceCard
-        id={experience.id}
-        company={experience.company}
-        role={experience.role}
-        period={experience.period}
-        description={experience.description}
-        class:list={[
-            "col-start-2 row-start-1",
-            i % 2 === 0 ? "lg:col-start-1" : "lg:col-start-3",
-          ]}
-      />
-      </li>
-    ))
-  }
+  <HalftoneReveal
+    direction="top-to-bottom"
+    duration={timelineDuration}
+    offsetY={2}
+    dotSpacing={12}
+  >
+    <ol
+      class="relative mt-10 [--dot-y:1.5rem] [--gap-up:-2rem] lg:[--dot-y:6rem] lg:[--gap-up:3rem]"
+    >
+      {
+        experience.map((item, i) => {
+          // Sincroniza el arranque de cada card con el avance vertical del halftone de la timeline
+          const syncedDelay = Math.round(
+            (i / Math.max(totalItems, 1)) * timelineDuration * 0.65
+          );
+          const isEven = i % 2 === 0;
+
+          return (
+            <li
+              class="group grid grid-cols-[auto_1fr] gap-x-4 not-first:-mt-(--gap-up)
+                     lg:grid-cols-[1fr_auto_1fr] lg:gap-x-10"
+            >
+              <div
+                aria-hidden="true"
+                class="relative col-start-1 row-start-1 lg:col-start-2"
+              >
+                <span
+                  class="absolute top-(--dot-y) bottom-[calc(var(--gap-up)-var(--dot-y))] left-1/2
+                         w-1 -translate-x-1/2 bg-black group-last:hidden"
+                ></span>
+                <span
+                  class="relative z-10 mt-[calc(var(--dot-y)-0.875rem)] block size-7 rounded-full
+                         border-4 border-black bg-primary"
+                ></span>
+              </div>
+
+              <WindowReveal
+                origin={isEven ? "top-right" : "top-left"}
+                delay={syncedDelay}
+                duration={650}
+                class:list={[
+                  "col-start-2 row-start-1",
+                  isEven ? "lg:col-start-1" : "lg:col-start-3",
+                ]}
+              >
+                <ExperienceCard
+                  id={item.id}
+                  company={item.company}
+                  role={item.role}
+                  period={item.period}
+                  description={item.description}
+                />
+              </WindowReveal>
+            </li>
+          );
+        })
+      }
     </ol>
+  </HalftoneReveal>
 </Section>
