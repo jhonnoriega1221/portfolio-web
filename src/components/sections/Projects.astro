@@ -9,12 +9,20 @@ import Card from "../ui/Card.astro";
 import Chip from "../ui/Chip.astro";
 import Section from "../ui/Section.astro";
 import TitleCard from "../ui/TitleCard.astro";
+import HalftoneReveal from "../HalftoneReveal.astro";
+import WindowReveal from "../WindowReveal.astro";
 ---
 
 <Section id="projects" wrapperClass="bg-secondary pb-20 lg:pb-50">
-  <TitleCard>Mis Proyectos</TitleCard>
+  <HalftoneReveal duration={1500} direction="top-to-bottom">
+    <TitleCard>Mis Proyectos</TitleCard>
+  </HalftoneReveal>
 
-  <div slot="background" aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10">
+  <div
+    slot="background"
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+  >
     <div class="halftone-divider absolute inset-x-0 -bottom-20 h-100 bg-canvas"></div>
   </div>
 
@@ -25,69 +33,93 @@ import TitleCard from "../ui/TitleCard.astro";
            lg:grid lg:grid-cols-[minmax(0,27rem)_1fr] lg:grid-rows-[repeat(var(--n),auto)_1fr] lg:gap-x-3"
   >
     {projects.map((project, i) => (
-      <Card as="div" class="p-0! bg-tertiary has-aria-expanded:bg-canvas lg:contents">
-        <ProjectItem
-          id={project.id}
-          name={project.name}
-          imageUrl={project.imageUrls[0] as ImageMetadata}
-          stack={project.stack}
-          selected={i === 0}
-          class="lg:col-start-1"
-        />
-
-        <div
-          role="region"
-          id={`panel-${project.id}`}
-          aria-labelledby={`trigger-${project.id}`}
-          hidden={i !== 0}
+      <Card
+        as="div"
+        class="p-0! bg-tertiary has-aria-expanded:bg-canvas lg:contents"
+      >
+        <WindowReveal delay={i * 500}>
+          <ProjectItem
+            id={project.id}
+            name={project.name}
+            imageUrl={project.imageUrls[0] as ImageMetadata}
+            stack={project.stack}
+            selected={i === 0}
+            class="lg:col-start-1"
+          />
+        </WindowReveal>
+        <WindowReveal
+          origin="top-left"
+          delay={1000}
+          data-project-panel-reveal
           class="px-4 pb-4 lg:col-start-2 lg:row-start-1 lg:row-span-full
                  lg:h-[calc(100dvh-var(--navbar-height-desktop)-var(--navbar-spacing)*2)]
-                 lg:max-h-150 lg:max-w-244 lg:border-6 lg:border-card-border
-                 lg:bg-canvas lg:p-7 lg:shadow-base xl:p-10 lg:ml-auto w-full"
+                 lg:max-h-150 lg:max-w-244 lg:ml-auto w-full"
         >
-          <div class="flex h-full flex-col justify-between gap-6">
-            <div class="flex flex-col">
-              <div class="mb-4 grid grid-cols-2 gap-4">
-                {project.imageUrls.slice(0, 2).map((img) => (
-                  <Image
-                    src={img as ImageMetadata}
-                    alt=""
-                    widths={[300, 600]}
-                    sizes="(min-width: 1024px) 24rem, 45vw"
-                    loading="lazy"
-                    class="w-full"
-                  />
-                ))}
+          <div
+            role="region"
+            id={`panel-${project.id}`}
+            aria-labelledby={`trigger-${project.id}`}
+            hidden={i !== 0}
+            class="h-full lg:border-6 lg:border-card-border
+                   lg:bg-canvas lg:p-7 lg:shadow-base xl:p-10"
+          >
+            <div class="flex h-full flex-col justify-between gap-6">
+              <div class="flex flex-col">
+                <div class="mb-4 grid grid-cols-2 gap-4">
+                  {project.imageUrls.slice(0, 2).map((img) => (
+                    <Image
+                      src={img as ImageMetadata}
+                      alt=""
+                      widths={[300, 600]}
+                      sizes="(min-width: 1024px) 24rem, 45vw"
+                      loading="lazy"
+                      class="w-full"
+                    />
+                  ))}
+                </div>
+
+                <h3 class="mb-1 hidden text-3xl font-bold text-white drop-shadow-title-text lg:block">
+                  {project.name}
+                </h3>
+                <p class="mb-6 font-medium lg:text-lg">{project.description}</p>
+
+                <div class="hidden flex-wrap gap-1 lg:flex">
+                  {project.stack.map((skillId) => (
+                    <Chip
+                      text={
+                        skills.find((s) => s.id === skillId)?.name ?? skillId
+                      }
+                    />
+                  ))}
+                </div>
               </div>
 
-              <h3 class="mb-1 hidden text-3xl font-bold text-white drop-shadow-title-text lg:block">
-                {project.name}
-              </h3>
-              <p class="mb-6 font-medium lg:text-lg">{project.description}</p>
-
-              <div class="hidden flex-wrap gap-1 lg:flex">
-                {project.stack.map((skillId) => (
-                  <Chip text={skills.find((s) => s.id === skillId)?.name ?? skillId} />
-                ))}
+              <div class="flex flex-col-reverse gap-3 md:flex-row md:justify-end lg:gap-4">
+                {project.repo && (
+                  <Button
+                    href={project.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-full justify-center bg-canvas! md:w-auto"
+                  >
+                    Ver código fuente{" "}
+                    <Icon name="simple-icons:github" class="size-6" />
+                  </Button>
+                )}
+                {project.demo && (
+                  <Button
+                    href={project.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="w-full justify-center md:w-auto"
+                  >
+                    Ver demo <Icon name="lucide:move-up-right" class="size-6" />
+                  </Button>
+                )}
               </div>
-            </div>
-
-            <div class="flex flex-col-reverse gap-3 md:flex-row md:justify-end lg:gap-4">
-              {project.repo && (
-                <Button href={project.repo} target="_blank" rel="noopener noreferrer"
-                        class="w-full justify-center bg-canvas! md:w-auto">
-                  Ver código fuente <Icon name="simple-icons:github" class="size-6" />
-                </Button>
-              )}
-              {project.demo && (
-                <Button href={project.demo} target="_blank" rel="noopener noreferrer"
-                        class="w-full justify-center md:w-auto">
-                  Ver demo <Icon name="lucide:move-up-right" class="size-6" />
-                </Button>
-              )}
             </div>
           </div>
-        </div>
+        </WindowReveal>
       </Card>
     ))}
   </div>
@@ -96,14 +128,20 @@ import TitleCard from "../ui/TitleCard.astro";
 <script>
   const root = document.querySelector<HTMLElement>("[data-projects]");
   if (root) {
-    const triggers = [...root.querySelectorAll<HTMLButtonElement>("[data-trigger]")];
-    const panels = triggers.map((t) => document.getElementById(t.getAttribute("aria-controls")!)!);
+    const triggers = [
+      ...root.querySelectorAll<HTMLButtonElement>("[data-trigger]"),
+    ];
+    const panels = triggers.map((t) =>
+      document.getElementById(t.getAttribute("aria-controls")!)!,
+    );
 
     let current = 0;
 
     function open(i: number) {
       current = i;
-      triggers.forEach((t, idx) => t.setAttribute("aria-expanded", String(idx === i)));
+      triggers.forEach((t, idx) =>
+        t.setAttribute("aria-expanded", String(idx === i)),
+      );
       panels.forEach((p, idx) => (p.hidden = idx !== i));
     }
 
@@ -112,10 +150,12 @@ import TitleCard from "../ui/TitleCard.astro";
         if (i === current) return;
         open(i);
 
-
         if (!matchMedia("(min-width: 64rem)").matches) {
           const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-          trigger.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
+          trigger.scrollIntoView({
+            block: "nearest",
+            behavior: reduce ? "auto" : "smooth",
+          });
         }
       });
 
