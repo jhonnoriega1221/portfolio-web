@@ -137,7 +137,6 @@ const inlineStyle = `--dot-spacing: ${dotSpacing}px; --reveal-duration: ${durati
 
       const triggerReveal = () => {
         this.classList.add('is-revealed');
-        // Fallback por si el navegador no dispara transitionend en @property
         const duration = parseInt(this.style.getPropertyValue('--reveal-duration') || '750', 10);
         const delay = parseInt(this.style.getPropertyValue('--reveal-delay') || '0', 10);
         this.fallbackTimer = window.setTimeout(() => {

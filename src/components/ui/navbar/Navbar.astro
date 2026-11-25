@@ -5,16 +5,112 @@ import NavbarItem from "./NavbarItem.astro";
 ---
 
 <Card
-as="nav"
-class="fixed w-full border-none shadow-none p-0! h-fit flex justify-center bottom-[calc(var(--navbar-spacing-mobile)+env(safe-area-inset-bottom)+var(--navbar-height-mobile))] md:top-(--navbar-spacing) z-1"
+  as="nav"
+  aria-label="Navegación principal"
+  data-navbar
+  class="fixed w-full border-none shadow-none p-0! h-fit flex justify-center bottom-[calc(var(--navbar-spacing-mobile)+env(safe-area-inset-bottom)+var(--navbar-height-mobile))] md:top-(--navbar-spacing) z-1"
 >
-<WindowReveal duration={800} immediate origin="center" class="border-3! fixed mx-auto w-fit h-(--navbar-height-mobile)  md:h-(--navbar-height-desktop) md:px-4! md:py-3 bg-card shadow-base flex gap-1 md:gap-3 items-center">
-
-    <NavbarItem href="#" label="Inicio" icon="solar:home-2" />
+  <WindowReveal
+    duration={800}
+    immediate
+    origin="center"
+    class="border-3! fixed mx-auto w-fit h-(--navbar-height-mobile) md:h-(--navbar-height-desktop) md:px-4! md:py-3 bg-card shadow-base flex gap-1 md:gap-3 items-center"
+  >
+    <NavbarItem href="#home" label="Inicio" icon="solar:home-2" />
     <NavbarItem href="#about" label="Sobre mí" icon="solar:user" />
     <NavbarItem href="#projects" label="Proyectos" icon="solar:code" />
     <NavbarItem href="#experience" label="Experiencia" icon="solar:suitcase" />
     <NavbarItem href="#contact" label="Contacto" icon="solar:chat-round" />
-
-</WindowReveal>
+  </WindowReveal>
 </Card>
+
+<script>
+  const nav = document.querySelector<HTMLElement>("[data-navbar]");
+
+  if (nav) {
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>("a[data-nav-link]")];
+
+    const sectionEntries = links
+      .map((link) => {
+        const hash = link.getAttribute("href") ?? "";
+        const id = hash.startsWith("#") ? hash.slice(1) : "";
+        const section = id ? document.getElementById(id) : null;
+        return { link, id, section };
+      })
+      .filter((item): item is { link: HTMLAnchorElement; id: string; section: HTMLElement } =>
+        Boolean(item.section)
+      );
+
+    let isManualScrolling = false;
+    let scrollUnlockTimer: number | null = null;
+
+    function setActive(activeHref: string) {
+      links.forEach((link) => {
+        const isMatch = link.getAttribute("href") === activeHref;
+        if (isMatch) {
+          link.setAttribute("data-active", "true");
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("data-active");
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => {
+        const href = link.getAttribute("href");
+        if (!href) return;
+
+        setActive(href);
+        isManualScrolling = true;
+
+        if (scrollUnlockTimer) window.clearTimeout(scrollUnlockTimer);
+        scrollUnlockTimer = window.setTimeout(() => {
+          isManualScrolling = false;
+          updateActiveFromScroll();
+        }, 850);
+      });
+    });
+
+    function updateActiveFromScroll() {
+      if (isManualScrolling || sectionEntries.length === 0) return;
+
+      const nearBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 40;
+      if (nearBottom) {
+        const last = sectionEntries[sectionEntries.length - 1];
+        setActive(`#${last.id}`);
+        return;
+      }
+
+      const probeY = window.scrollY + window.innerHeight * 0.25;
+      let currentActiveId = sectionEntries[0].id;
+
+      for (const item of sectionEntries) {
+        const top = item.section.offsetTop;
+        if (top <= probeY) {
+          currentActiveId = item.id;
+        }
+      }
+
+      setActive(`#${currentActiveId}`);
+    }
+
+    const observer = new IntersectionObserver(
+      () => {
+        updateActiveFromScroll();
+      },
+      {
+        rootMargin: "-15% 0px -65% 0px",
+        threshold: 0,
+      }
+    );
+
+    sectionEntries.forEach(({ section }) => observer.observe(section));
+    window.addEventListener("scroll", updateActiveFromScroll, { passive: true });
+    window.addEventListener("resize", updateActiveFromScroll, { passive: true });
+
+    updateActiveFromScroll();
+  }
+</script>
